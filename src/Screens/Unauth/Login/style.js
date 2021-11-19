@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
-import theme from "../../Utils/theme";
-import fonts from "../../Utils/fonts";
+import theme from "../../../Utils/theme";
+import fonts from "../../../Utils/fonts";
 
 const styles = StyleSheet.create({
   MainCntainer: {
     flex: 1,
     backgroundColor: theme.BACKGROUND,
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: scale(70),
   },
   Logo: {
@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
   textContainer: {
     marginHorizontal: scale(10),
   },
+  PwdView: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   Title: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
@@ -25,18 +29,22 @@ const styles = StyleSheet.create({
   },
   DetailsContainer: {
     backgroundColor: "rgba(0,0,0,0.3)",
-    height: '60%',
     marginHorizontal: scale(16),
     width: "93%",
     borderRadius: scale(15),
     marginTop: scale(20),
     paddingVertical: scale(33),
-    justifyContent: "space-around",
   },
   InputContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
+    marginHorizontal: scale(20),
+    alignItems: "center",
+  },
+  PwdContainer: {
+    flexDirection: "row",
     marginHorizontal: scale(20),
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   usernameTitle: {
     fontFamily: fonts.JosefinSans_Regular,
@@ -51,27 +59,41 @@ const styles = StyleSheet.create({
     lineHeight: scale(16),
     padding: 0,
   },
+  forgetPwdText: {
+    fontFamily: fonts.JosefinSans_Regular,
+    fontSize: scale(16),
+    color: theme.YELLOW,
+    lineHeight: scale(16),
+    padding: 0,
+    textAlign: 'right',
+    marginRight: scale(19),
+    marginBottom: scale(25),
+  },
   Line: {
     height: scale(1),
-    width: '90%',
+    width: "90%",
     backgroundColor: theme.WHITE,
     marginVertical: scale(10),
     marginBottom: scale(8),
     opacity: 0.1,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   passwordEye: {
-    alignSelf: 'flex-end',
+    marginRight: scale(12),
   },
   BottomView: {
     backgroundColor: "rgba(0,0,0,0.3)",
     marginTop: scale(10),
     paddingVertical: scale(20),
     borderRadius: scale(10),
-    width: '95%',
+    width: "95%",
     paddingHorizontal: scale(25),
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  Container: {
+    marginBottom: scale(18),
+    justifyContent: 'center',
   },
 });
 export default styles;
