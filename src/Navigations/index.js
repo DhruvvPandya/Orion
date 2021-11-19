@@ -9,8 +9,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MyProfile from "../Screens/Auth/MyProfile";
 import MyOrders from "../Screens/Auth/MyOrders";
 import Settings from "../Screens/Auth/Settings";
-import Login from "../Screens/Login";
-import Home from "../Screens/Home";
 
 const Navigation = () => {
   const Stack = createNativeStackNavigator();

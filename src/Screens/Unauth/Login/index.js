@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Image, View, Text, TextInput, ScrollView } from "react-native";
+import { Image, View, Text, TextInput, ScrollView,Pressable } from "react-native";
 import { scale } from "react-native-size-matters";
-import theme from "../../Utils/theme";
+import theme from "src/Utils/theme";
 import styles from "./style";
 import Icon from 'react-native-vector-icons/Feather';
 import { Switch } from "react-native-switch";
-import Button from "../../Components/Button";
-import * as Api from "../../Utils/Api";
-import ApiConstants from "../../Utils/apiConstants";
-import { setSessionData } from "../../Utils/asyncStorage";
+import Button from "src/Components/Button";
+import * as Api from "src/Utils/Api";
+import ApiConstants from "src/Utils/apiConstants";
+import { setSessionData } from "src/Utils/asyncStorage";
 
 export const LOGIN_KEY = "LoginToken";
 
