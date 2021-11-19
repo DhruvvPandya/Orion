@@ -1,24 +1,41 @@
 import React, { useState } from "react";
-import {
-  Image,
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  Pressable,
-} from "react-native";
-import { scale } from 'react-native-size-matters';
-import theme from "../../../Utils/theme";
+import { Image, View, Text, TextInput, ScrollView } from "react-native";
+import { scale } from "react-native-size-matters";
+import theme from "../../Utils/theme";
 import styles from "./style";
 import Icon from 'react-native-vector-icons/Feather';
-import { Switch } from 'react-native-switch';
-import Button from "../../../Components/Button";
-import { useNavigation } from "@react-navigation/core";
+import { Switch } from "react-native-switch";
+import Button from "../../Components/Button";
+import * as Api from "../../Utils/Api";
+import ApiConstants from "../../Utils/apiConstants";
+import { setSessionData } from "../../Utils/asyncStorage";
 
-const Login = () => {
-  const navigation = useNavigation();
+export const LOGIN_KEY = "LoginToken";
+
+const Login = ({ navigation }) => {
   const [hidePass, setHidePass] = useState(true);
   const [isSignIn, setisSignIn] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onLoginSuccess = async (data) => {
+    isSignIn && (await setSessionData(LOGIN_KEY, data?.data?.token));
+    data.data.token && navigation.navigate("DrawerNavigator");
+  };
+
+  const onLoginSubmit = () => {
+    const params = {
+      email: username,
+      password: password,
+    };
+    Api.postApicall(
+      ApiConstants.BASE_URL + ApiConstants.LOGIN,
+      params,
+      onLoginSuccess
+    );
+  };
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.MainCntainer}>
@@ -37,6 +54,8 @@ const Login = () => {
                 style={styles.usernameDetails}
                 placeholder={"Username"}
                 placeholderTextColor={theme.WHITE}
+                onChangeText={setUsername}
+                value={username}
               />
             </View>
           </View>
@@ -53,6 +72,8 @@ const Login = () => {
                 placeholder={"Password"}
                 placeholderTextColor={theme.WHITE}
                 secureTextEntry={hidePass ? true : false}
+                onChangeText={setPassword}
+                value={password}
               />
             </View>
             </View>
@@ -67,7 +88,7 @@ const Login = () => {
         <Pressable onPress={() => navigation.navigate("ForgetPassword")}>
           <Text style={styles.forgetPwdText}>Forget Password?</Text>
         </Pressable>
-        <Button Title={"Sign In"} />
+        <Button Title={"Sign In"} onPress={() => onLoginSubmit()} />
       </View>
       <View style={styles.BottomView}>
         <Text style={styles.usernameDetails}>Stay Sign In</Text>
