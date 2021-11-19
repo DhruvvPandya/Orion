@@ -20,7 +20,7 @@ const Login = ({ navigation }) => {
 
   const onLoginSuccess = async (data) => {
     isSignIn && (await setSessionData(LOGIN_KEY, data?.data?.token));
-    data.data.token && navigation.navigate("DrawerNavigator");
+    data.data.token && navigation.navigate("TabNavigator");
   };
 
   const onLoginSubmit = () => {
