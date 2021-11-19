@@ -1,14 +1,39 @@
-import React, { useState } from 'react';
-import { Image, View, Text, TextInput, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import { Image, View, Text, TextInput, ScrollView } from "react-native";
 import { scale } from "react-native-size-matters";
-import theme from '../../Utils/theme';
-import styles from './style';
+import theme from "../../Utils/theme";
+import styles from "./style";
 import { Switch } from "react-native-switch";
-import Button from '../../Components/Button';
+import Button from "../../Components/Button";
+import * as Api from "../../Utils/Api";
+import ApiConstants from "../../Utils/apiConstants";
+import { setSessionData } from "../../Utils/asyncStorage";
 
-const Login = () => {
+export const LOGIN_KEY = "LoginToken";
+
+const Login = ({ navigation }) => {
   const [hidePass, setHidePass] = useState(true);
   const [isSignIn, setisSignIn] = useState(true);
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const onLoginSuccess = async (data) => {
+    console.log("isSignIn", isSignIn);
+    isSignIn && (await setSessionData(LOGIN_KEY, data.data.token));
+    data.data.token && navigation.navigate("Home");
+  };
+
+  const onLoginSubmit = () => {
+    const params = {
+      email: username,
+      password: password,
+    };
+    Api.getApicall(
+      ApiConstants.BASE_URL + ApiConstants.LOGIN,
+      params,
+      onLoginSuccess
+    );
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.MainCntainer}>
@@ -20,13 +45,15 @@ const Login = () => {
       <View style={styles.DetailsContainer}>
         <View>
           <View style={styles.InputContainer}>
-            <Image source={require('../../Assets/images/msg.png')} />
+            <Image source={require("../../Assets/images/msg.png")} />
             <View style={styles.textContainer}>
               <Text style={styles.usernameTitle}>Username</Text>
               <TextInput
                 style={styles.usernameDetails}
-                placeholder={'Username'}
+                placeholder={"Username"}
                 placeholderTextColor={theme.WHITE}
+                onChangeText={setUsername}
+                value={username}
               />
             </View>
           </View>
@@ -34,20 +61,22 @@ const Login = () => {
         </View>
         <View>
           <View style={styles.InputContainer}>
-            <Image source={require('../../Assets/images/lock.png')} />
+            <Image source={require("../../Assets/images/lock.png")} />
             <View style={styles.textContainer}>
               <Text style={styles.usernameTitle}>Password</Text>
               <TextInput
                 style={styles.usernameDetails}
-                placeholder={'Password'}
+                placeholder={"Password"}
                 placeholderTextColor={theme.WHITE}
                 secureTextEntry={hidePass ? true : false}
+                onChangeText={setPassword}
+                value={password}
               />
             </View>
           </View>
           <View style={styles.Line} />
         </View>
-        <Button Title={'Sign In'} />
+        <Button Title={"Sign In"} onPress={() => onLoginSubmit()} />
       </View>
       <View style={styles.BottomView}>
         <Text style={styles.usernameDetails}>Stay Sign In</Text>
