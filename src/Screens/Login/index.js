@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
-import {
-  Image,
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  Pressable,
-} from 'react-native';
+import { Image, View, Text, TextInput, ScrollView } from 'react-native';
 import { scale } from "react-native-size-matters";
 import theme from '../../Utils/theme';
 import styles from './style';
 import { Switch } from "react-native-switch";
+import Button from '../../Components/Button';
 
 const Login = () => {
   const [hidePass, setHidePass] = useState(true);
   const [isSignIn, setisSignIn] = useState(true);
 
   return (
-    <SafeAreaView style={styles.MainCntainer}>
+    <ScrollView contentContainerStyle={styles.MainCntainer}>
       <Image
         source={require("../../Assets/images/logo.png")}
         style={styles.Logo}
@@ -53,9 +47,7 @@ const Login = () => {
           </View>
           <View style={styles.Line} />
         </View>
-        <Pressable style={styles.Button}>
-          <Text style={styles.btnText}>Sign In</Text>
-        </Pressable>
+        <Button Title={'Sign In'} />
       </View>
       <View style={styles.BottomView}>
         <Text style={styles.usernameDetails}>Stay Sign In</Text>
@@ -79,7 +71,7 @@ const Login = () => {
           switchBorderRadius={scale(10)}
         />
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
