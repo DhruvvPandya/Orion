@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   MainCntainer: {
     flex: 1,
     backgroundColor: theme.BACKGROUND,
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: scale(70),
   },
   Logo: {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   DetailsContainer: {
     backgroundColor: "rgba(0,0,0,0.3)",
-    height: '60%',
+    height: "60%",
     marginHorizontal: scale(16),
     width: "93%",
     borderRadius: scale(15),
@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   InputContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginHorizontal: scale(20),
-    alignItems: 'center',
+    alignItems: "center",
   },
   usernameTitle: {
     fontFamily: fonts.JosefinSans_Regular,
@@ -53,22 +53,22 @@ const styles = StyleSheet.create({
   },
   Line: {
     height: scale(1),
-    width: '90%',
+    width: "90%",
     backgroundColor: theme.WHITE,
     marginVertical: scale(10),
     marginBottom: scale(8),
     opacity: 0.1,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   passwordEye: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   BottomView: {
     backgroundColor: "rgba(0,0,0,0.3)",
     marginTop: scale(10),
     paddingVertical: scale(20),
     borderRadius: scale(10),
-    width: '95%',
+    width: "95%",
     paddingHorizontal: scale(25),
     flexDirection: "row",
     justifyContent: "space-between",

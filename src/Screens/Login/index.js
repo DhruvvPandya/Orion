@@ -14,12 +14,11 @@ export const LOGIN_KEY = "LoginToken";
 const Login = ({ navigation }) => {
   const [hidePass, setHidePass] = useState(true);
   const [isSignIn, setisSignIn] = useState(true);
-  const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const onLoginSuccess = async (data) => {
-    console.log("isSignIn", isSignIn);
-    isSignIn && (await setSessionData(LOGIN_KEY, data.data.token));
+    isSignIn && (await setSessionData(LOGIN_KEY, data?.data?.token));
     data.data.token && navigation.navigate("Home");
   };
 
@@ -28,12 +27,14 @@ const Login = ({ navigation }) => {
       email: username,
       password: password,
     };
-    Api.getApicall(
+    Api.postApicall(
       ApiConstants.BASE_URL + ApiConstants.LOGIN,
       params,
       onLoginSuccess
     );
   };
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.MainCntainer}>
