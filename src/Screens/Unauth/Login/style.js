@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     color: theme.WHITE,
     lineHeight: scale(16),
     padding: 0,
+    alignSelf: 'center'
   },
   forgetPwdText: {
     fontFamily: fonts.JosefinSans_Regular,
