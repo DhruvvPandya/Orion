@@ -6,7 +6,8 @@ import styles from "./style";
 import { Switch } from 'react-native-switch';
 import Button from "../../../Components/Button";
 
-const ForgetPassword = () => {
+const ForgetPassword = ({navigation}) => {
+
   const [hidePass, setHidePass] = useState(true);
   const [isSignIn, setisSignIn] = useState(true);
 
@@ -38,7 +39,8 @@ const ForgetPassword = () => {
         </View>
         <Button Title={"Submit"} />
       </View>
-      <Pressable style={styles.BottomText}>
+      <Pressable style={styles.BottomText}
+      onPress={()=>navigation.goBack()}>
       <Text style={styles.SubTitle}>Remember password? <Text style={styles.Textcolor}>Sign In</Text></Text>
       </Pressable>
     </ScrollView>
