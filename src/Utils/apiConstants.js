@@ -6,6 +6,7 @@ const ApiConstants = {
   LOGIN: "auth/login",
   FORGOT_PASSWORD: "auth/forgot_password",
   DASHBOARD: "dashborad_data",
+  USER: 'auth/user'
 };
 
 export default ApiConstants;

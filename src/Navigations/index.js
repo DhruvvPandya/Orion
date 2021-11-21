@@ -6,7 +6,6 @@ import { scale } from 'react-native-size-matters'
 import Login from "../Screens/Unauth/Login";
 import ForgetPassword from "../Screens/Unauth/ForgetPassword";
 import Splash from "../Screens/Unauth/Splash";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MyProfile from "src/Screens/Auth/MyProfile";
 import MyOrders from "src/Screens/Auth/MyOrders";
@@ -20,13 +19,76 @@ import DrawerView from "src/Components/DrawerView";
 
 const Navigation = () => {
   const Stack = createNativeStackNavigator();
-  const Drawer = createDrawerNavigator();
+  const DashBoardStack = createNativeStackNavigator();
+  const OrderRequestStack = createNativeStackNavigator();
+  const ActiveOrderStack = createNativeStackNavigator();
+
   const Tab = createBottomTabNavigator();
+
+  function DashBoardNavigator(){
+    return(
+      <DashBoardStack.Navigator
+      initialRouteName={DashBoard}
+      screenOptions={{
+        headerShown: false
+      }}
+      >
+        <DashBoardStack.Screen 
+        name={'DashBoard'} component={DashBoard}
+        />
+        <DashBoardStack.Screen name={"MyProfile"} component={MyProfile} />
+        <DashBoardStack.Screen name={"MyOrders"} component={MyOrders} />
+        <DashBoardStack.Screen name={"Settings"} component={Settings} />
+
+      </DashBoardStack.Navigator>
+
+    )
+  }
+
+  function OrderRequestNavigator(){
+    return(
+      <OrderRequestStack.Navigator
+      initialRouteName={OrderRequest}
+      screenOptions={{
+        headerShown: false
+      }}
+      >
+        <OrderRequestStack.Screen 
+        name={'OrderRequest'} component={OrderRequest}
+        />
+        <OrderRequestStack.Screen name={"MyProfile"} component={MyProfile} />
+        <OrderRequestStack.Screen name={"MyOrders"} component={MyOrders} />
+        <OrderRequestStack.Screen name={"Settings"} component={Settings} />
+
+      </OrderRequestStack.Navigator>
+
+    )
+  }
+
+  function ActiveOrderNavigator(){
+    return(
+      <ActiveOrderStack.Navigator
+      initialRouteName={OrderRequest}
+      screenOptions={{
+        headerShown: false
+      }}
+      >
+        <ActiveOrderStack.Screen 
+        name={'ActiveOrder'} component={ActiveOrder}
+        />
+        <ActiveOrderStack.Screen name={"MyProfile"} component={MyProfile} />
+        <ActiveOrderStack.Screen name={"MyOrders"} component={MyOrders} />
+        <ActiveOrderStack.Screen name={"Settings"} component={Settings} />
+
+      </ActiveOrderStack.Navigator>
+
+    )
+  }
 
   function TabNavigator() {
     return (
       <Tab.Navigator
-        initialRouteName={DashBoard}
+        initialRouteName={DashBoardNavigator}
         screenOptions={{
           headerShown: false,
           tabBarLabelStyle: {
@@ -38,13 +100,13 @@ const Navigation = () => {
           tabBarInactiveTintColor: theme.WHITE,
           tabBarStyle: {
             backgroundColor: theme.BACKGROUND,
-            height: scale(65),
+            height: scale(55),
             padding: 0
           },
           tabStyle: {
           },
         }}>
-        <Tab.Screen name={'DashBoard'} component={DashBoard}
+        <Tab.Screen name={'DashBoardNavigator'} component={DashBoardNavigator}
           options={{
             tabBarLabel: 'DashBoard',
             tabBarIcon: ({ focused }) => {
@@ -67,7 +129,7 @@ const Navigation = () => {
               )
             }
           }} />
-        <Tab.Screen name={'OrderRequest'} component={OrderRequest}
+        <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
           options={{
             tabBarLabel: 'Order Request',
             tabBarIcon: ({ focused }) => {
@@ -82,7 +144,7 @@ const Navigation = () => {
               )
             }
           }} />
-        <Tab.Screen name={'ActiveOrder'} component={ActiveOrder}
+        <Tab.Screen name={'ActiveOrderNavigator'} component={ActiveOrderNavigator}
           options={{
             tabBarLabel: 'Request Response',
             tabBarIcon: ({ focused }) => {
@@ -101,25 +163,11 @@ const Navigation = () => {
     )
   }
 
-  function DrawerNavigator() {
-    return (
-      <Drawer.Navigator
-        drawerContent={({ props, navigation }) => <DrawerView {...props} navigation={navigation} />}
-        screenOptions={{
-          headerShown: false,
-          drawerPosition: 'right',
-        }}>
-          <Drawer.Screen name={'DashBoard'} component={DashBoard} />
-        <Drawer.Screen name={"MyProfile"} component={MyProfile} />
-        <Drawer.Screen name={"MyOrders"} component={MyOrders} />
-        <Drawer.Screen name={"Settings"} component={Settings} />
-      </Drawer.Navigator>
-    );
-  }
+ 
   function StackNavigator() {
     return (
       <Stack.Navigator
-        initialRouteName={DrawerNavigator}
+        initialRouteName={TabNavigator}
         screenOptions={{
           headerShown: false,
         }}
@@ -128,7 +176,10 @@ const Navigation = () => {
         <Stack.Screen name={"Login"} component={Login} />
         <Stack.Screen name={"ForgetPassword"} component={ForgetPassword} />
         <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
-        <Stack.Screen name={"DrawerNavigator"} component={DrawerNavigator} />
+        <Stack.Screen name={'MyProfile'} component={MyProfile} />
+        <Stack.Screen name={'MyOrders'} component={MyOrders} />
+        <Stack.Screen name={'Settings'} component={Settings} />
+
       </Stack.Navigator>
     );
   }

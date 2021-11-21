@@ -1,18 +1,37 @@
 import React, { useState } from "react";
 import { Image, View, Text, TextInput, ScrollView, Pressable } from "react-native";
-import { scale } from 'react-native-size-matters';
 import theme from "../../../Utils/theme";
 import styles from "./style";
-import { Switch } from 'react-native-switch';
 import Button from "../../../Components/Button";
+import Loader from "src/Components/Loader";
+import * as Api from "src/Utils/Api";
+import ApiConstants from "src/Utils/apiConstants";
 
 const ForgetPassword = ({navigation}) => {
 
-  const [hidePass, setHidePass] = useState(true);
-  const [isSignIn, setisSignIn] = useState(true);
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const onSubmitSuccess = () => {
+    setLoading(false)
+    navigation.goBack()
+  };
+
+  const onSubmit = () => {
+    setLoading(true)
+    const params = {
+      email: email,
+    };
+    Api.postApicall(
+      ApiConstants.BASE_URL + ApiConstants.FORGOT_PASSWORD,
+      params,
+      onSubmitSuccess
+    );
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.MainCntainer}>
+      <Loader loading={loading} />
       <Image
         source={require('../../../Assets/images/logo.png')}
         style={styles.Logo}
@@ -32,16 +51,17 @@ const ForgetPassword = ({navigation}) => {
                 style={styles.usernameDetails}
                 placeholder={"Email"}
                 placeholderTextColor={theme.WHITE}
+                onChangeText={setEmail}
+                value={email}
               />
             </View>
           </View>
           <View style={styles.Line} />
         </View>
-        <Button Title={"Submit"} />
+        <Button Title={"Submit"} onPress={()=> onSubmit()}/>
       </View>
-      <Pressable style={styles.BottomText}
-      onPress={()=>navigation.goBack()}>
-      <Text style={styles.SubTitle}>Remember password? <Text style={styles.Textcolor}>Sign In</Text></Text>
+      <Pressable style={styles.BottomText}>
+      <Text style={styles.SubTitle}>Remember password? <Text style={styles.Textcolor} onPress={()=>navigation.goBack()}>Sign In</Text></Text>
       </Pressable>
     </ScrollView>
   );

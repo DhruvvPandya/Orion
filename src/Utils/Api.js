@@ -11,6 +11,7 @@ export const postApicall = (url, payload, success) => {
       },
     })
     .then((res) => {
+      console.log('success', res)
       if (success) {
         success(res.data);
       }

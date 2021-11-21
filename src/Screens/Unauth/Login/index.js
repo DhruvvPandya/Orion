@@ -9,6 +9,7 @@ import Button from "src/Components/Button";
 import * as Api from "src/Utils/Api";
 import ApiConstants from "src/Utils/apiConstants";
 import { setSessionData } from "src/Utils/asyncStorage";
+import Loader from "src/Components/Loader";
 
 export const LOGIN_KEY = "LoginToken";
 
@@ -17,13 +18,16 @@ const Login = ({ navigation }) => {
   const [isSignIn, setisSignIn] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onLoginSuccess = async (data) => {
     isSignIn && (await setSessionData(LOGIN_KEY, data?.data?.token));
+    setLoading(false)
     data.data.token && navigation.navigate("TabNavigator");
   };
 
   const onLoginSubmit = () => {
+    setLoading(true)
     const params = {
       email: username,
       password: password,
@@ -35,10 +39,9 @@ const Login = ({ navigation }) => {
     );
   };
 
-
-
   return (
     <ScrollView contentContainerStyle={styles.MainCntainer}>
+      <Loader loading={loading} />
       <Image
         source={require('../../../Assets/images/logo.png')}
         style={styles.Logo}
