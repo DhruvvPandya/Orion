@@ -11,6 +11,8 @@ import theme from "../../Utils/theme";
 const Header = ({ Title, ProfileImage }) => {
   const navigation = useNavigation();
   const [isModalVisible, setisModalVisible] = useState(false);
+  const [LogOutModal, setLogOutModal] = useState(false);
+
   return (
     <View style={styles.HeaderView}>
       <View style={styles.TitleView}>
@@ -37,24 +39,24 @@ const Header = ({ Title, ProfileImage }) => {
           isVisible={isModalVisible}
           swipeDirection={'right'}
           onBackdropPress={() => setisModalVisible(!isModalVisible)}
-          style={{margin:0}}
+          style={{ margin: 0 }}
           animationIn="fadeIn"
           backdropColor={theme.BLACK}
           backdropOpacity={0.6}
         >
           <View style={styles.Modalstyle}>
-            <Pressable onPress={()=>{
+            <Pressable onPress={() => {
               navigation.navigate("MyProfile"),
-              setisModalVisible(!isModalVisible)
+                setisModalVisible(!isModalVisible)
             }}>
               <Text style={styles.ModalText}>
                 My Profile
               </Text>
             </Pressable>
             <View style={styles.Line} />
-            <Pressable onPress={()=>{
+            <Pressable onPress={() => {
               navigation.navigate("MyOrders"),
-              setisModalVisible(!isModalVisible)
+                setisModalVisible(!isModalVisible)
             }}>
               <Text style={styles.ModalText}>
                 My Orders
@@ -62,22 +64,50 @@ const Header = ({ Title, ProfileImage }) => {
             </Pressable>
             <View style={styles.Line} />
 
-            <Pressable onPress={()=>{
+            <Pressable onPress={() => {
               navigation.navigate("Settings"),
-              setisModalVisible(!isModalVisible)
+                setisModalVisible(!isModalVisible)
             }}>
               <Text style={styles.ModalText}>
                 Settings
               </Text>
             </Pressable>
             <View style={styles.Line} />
-            <Pressable>
+            <Pressable onPress={() => {
+              setisModalVisible(!isModalVisible),
+                setLogOutModal(!LogOutModal)
+            }}>
               <Text style={styles.ModalText}>
                 Log Out
               </Text>
             </Pressable>
             <View style={styles.Line} />
 
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={LogOutModal}
+          swipeDirection={'up'}
+          style={{ alignItems: 'center', justifyContent: 'center' }}
+          animationIn="fadeIn"
+          backdropColor={theme.BLACK}
+          backdropOpacity={0.6}
+        >
+          <View style={styles.LogoutModalStyle}>
+            <Text style={styles.LogoutTitle}>Log Out</Text>
+            <Text style={styles.LogOutDetails}>Are you sure you want to logout right Now ?</Text>
+            <View style={styles.Horizontal}>
+              <Pressable style={styles.Btn}
+                onPress={() => setLogOutModal(!LogOutModal)}>
+                <Text style={styles.btnTxt}>No</Text>
+              </Pressable>
+              <Pressable style={styles.Btn} onPress={() => {
+                navigation.navigate('Login')
+              }}>
+                <Text style={styles.btnTxt}>Yes</Text>
+              </Pressable>
+            </View>
           </View>
         </Modal>
       </View>

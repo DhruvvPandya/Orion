@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Image, View, Text, TextInput, ScrollView, Pressable } from "react-native";
+import Snackbar from 'react-native-snackbar';
 import theme from "../../../Utils/theme";
 import styles from "./style";
 import Button from "../../../Components/Button";
@@ -22,11 +23,16 @@ const ForgetPassword = ({navigation}) => {
     const params = {
       email: email,
     };
-    Api.postApicall(
+    {email.length> 0 ?  Api.postApicall(
       ApiConstants.BASE_URL + ApiConstants.FORGOT_PASSWORD,
       params,
       onSubmitSuccess
-    );
+    ) : Snackbar.show({
+      text: 'Enter Email',
+      duration: Snackbar.LENGTH_SHORT,
+    }),
+  setLoading(false) }
+   
   };
 
   return (

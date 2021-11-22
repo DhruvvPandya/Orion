@@ -17,16 +17,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex:1
+    flex: 1
   },
   Modalstyle: {
     backgroundColor: theme.BACKGROUND,
-    flex:1,
+    flex: 1,
     marginLeft: '25%',
     paddingHorizontal: scale(30),
     paddingVertical: Platform.OS === 'ios' && hasNotch ? scale(95) : scale(45)
   },
-  ModalText:{
+  ModalText: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
     fontSize: scale(18),
@@ -40,5 +40,41 @@ const styles = StyleSheet.create({
     opacity: 0.1,
     alignSelf: "center",
   },
+  LogoutModalStyle: {
+    height: '30%',
+    width: '75%',
+    backgroundColor: theme.WHITE,
+    paddingHorizontal: scale(12),
+    paddingVertical: scale(25)
+  },
+  LogoutTitle: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.BACKGROUND,
+    fontSize: scale(18),
+    textAlign: 'center'
+  },
+  LogOutDetails: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.BACKGROUND,
+    fontSize: scale(14),
+    marginTop: scale(12),
+    textAlign: 'center'
+  },
+  Horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: scale(30)
+  },
+  btnTxt: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.DARK_BLUE,
+    fontSize: scale(14),
+  },
+  Btn: {
+    backgroundColor: theme.YELLOW,
+    paddingHorizontal: scale(20),
+    paddingVertical: scale(8),
+    borderRadius: scale(8)
+  }
 });
 export default styles;
