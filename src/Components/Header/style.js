@@ -1,8 +1,10 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import theme from "../../Utils/theme";
 import fonts from "../../Utils/fonts";
+import DeviceInfo from 'react-native-device-info';
 
+const hasNotch = DeviceInfo.hasNotch();
 const styles = StyleSheet.create({
   HeaderView: {
     height: scale(55),
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
     flex:1,
     marginLeft: '25%',
     paddingHorizontal: scale(30),
-    paddingVertical: scale(45)
+    paddingVertical: Platform.OS === 'ios' && hasNotch ? scale(95) : scale(45)
   },
   ModalText:{
     fontFamily: fonts.JosefinSans_Regular,

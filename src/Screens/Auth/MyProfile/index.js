@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from 'react';
-import { View, Text, Image, PermissionsAndroid } from 'react-native';
+import { View, Text, Image, PermissionsAndroid, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
@@ -15,12 +15,10 @@ import { scale } from 'react-native-size-matters';
 
 const actionSheetRef = createRef();
 
-
 const MyProfile = () => {
   const [userInfo, setUserInfo] = useState("");
   const [loading, setLoading] = useState(false);
-  const [profile_photo, setPhoto] = useState(null);
-
+  const [profile_photo, setPhoto] = useState(userInfo?.profile_photo_url);
 
   const onUserInfoSuccess = async (data) => {
     setLoading(false)
@@ -35,11 +33,34 @@ const MyProfile = () => {
     );
   };
 
+  const onProfilePicSuccess = () => {
+    setLoading(false)
+  };
+
+  const onProfilePic = (response) => {
+    console.log('response', response)
+      let data = new FormData();
+        data.append('photo', {
+          type: response.mime,
+          uri: response.path,
+          name: 'profile_photo.jpeg',
+        });
+        Api.postApicallToken(
+          ApiConstants.BASE_URL + ApiConstants.UPDATE_PROFILEPIC,
+          data,
+          onProfilePicSuccess
+        );
+  };
+
   useEffect(() => {
     onUserInfo();
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
-  }, []);
+  }, [userInfo?.profile_photo_url]);
+
+  useEffect(() => {
+    setPhoto(userInfo?.profile_photo_url)
+  }, [userInfo?.profile_photo_url]);
 
   const fromGallery = () => {
     ImagePicker.openPicker({
@@ -49,14 +70,8 @@ const MyProfile = () => {
     }).then(response => {
       setPhoto(response.path);
       actionSheetRef.current?.hide();
-      const form = new FormData();
-      form.append('media', {
-        type: 'image/jpeg',
-        uri: response.path,
-        name: 'profile_photo.jpeg',
-      });
+      onProfilePic(response)
     });
-    
   };
 
   const fromCamera = () => {
@@ -68,13 +83,7 @@ const MyProfile = () => {
       .then(response => {
         setPhoto(response.path);
         actionSheetRef.current?.hide();
-        const form = new FormData();
-        form.append('media', {
-          type: 'image/jpeg',
-          uri: response.path,
-          name: 'profile_photo.jpeg',
-        });
-
+        onProfilePic(response)
       })
       .catch(err => {
         console.log('image error', err.message);
@@ -89,11 +98,9 @@ const MyProfile = () => {
       <View style={styles.NameView}>
         <View style={styles.NameData}>
           <Text style={styles.name}>
-            Adam Smith
+          {userInfo?.first_name} {userInfo?.last_name}
           </Text>
-          <Text style={styles.Designation}>
-            Field Store Personnel
-          </Text>
+          <Text style={styles.Designation}>{userInfo?.default_role}</Text>
           <Text style={styles.Designation}>
             ---
           </Text>
@@ -102,7 +109,7 @@ const MyProfile = () => {
               name={'location-sharp'}
               color={theme.BACKGROUND}
               size={scale(22)} />
-            <Text style={styles.Designation}>Store Code - 2096011</Text>
+            <Text style={[styles.Designation, { alignSelf: 'center'}]}>Store Code - {userInfo?.store?.store_code}</Text>
           </View>
         </View>
         <View style={styles.ImageData}>
@@ -137,19 +144,19 @@ const MyProfile = () => {
       </ActionSheet>
       <View style={styles.DetailsView}>
         <Text style={styles.TitleText}>First Name</Text>
-        <Text style={styles.DetailsText}>Adam</Text>
+        <Text style={styles.DetailsText}>{userInfo?.first_name}</Text>
         <View style={styles.Line} />
         <Text style={styles.TitleText}>Last Name</Text>
-        <Text style={styles.DetailsText}>Smith</Text>
+        <Text style={styles.DetailsText}>{userInfo?.last_name}</Text>
         <View style={styles.Line} />
         <Text style={styles.TitleText}>Email Address</Text>
-        <Text style={styles.DetailsText}>adamsmith@email.com</Text>
+        <Text style={styles.DetailsText}>{userInfo?.email}</Text>
         <View style={styles.Line} />
         <Text style={styles.TitleText}>User Role</Text>
-        <Text style={styles.DetailsText}>Field Store Personnel</Text>
+        <Text style={styles.DetailsText}>{userInfo?.default_role}</Text>
         <View style={styles.Line} />
         <Text style={styles.TitleText}>Store Code</Text>
-        <Text style={styles.DetailsText}>2096011</Text>
+        <Text style={styles.DetailsText}>{userInfo?.store?.store_code}</Text>
         <View style={styles.Line} />
       </View>
     </SafeAreaView>
