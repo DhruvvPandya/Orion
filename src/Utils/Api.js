@@ -17,9 +17,29 @@ export const postApicall = (url, payload, success) => {
       }
     })
     .catch((err) => {
-      console.log(err);
+      console.log('err',err);
     });
 };
+
+export const postApicallToken = async (url, payload, success) => {
+  const token = await getSessionData(LOGIN_KEY);
+  axios
+    .post(url, payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      console.log('success', res)
+      if (success) {
+        success(res.data);
+      }
+    })
+    .catch((err) => {
+      console.log('err',err);
+    });
+}
 
 export const getApicall = async (url, success) => {
   const token = await getSessionData(LOGIN_KEY);

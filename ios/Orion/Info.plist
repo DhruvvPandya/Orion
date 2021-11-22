@@ -40,12 +40,6 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Use your microphone to record audio messages</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Use your camera to users or to change your avatar</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload photos to share with other users or to change your avatar</string>
 	<array>
 		<string>armv7</string>
 	</array>

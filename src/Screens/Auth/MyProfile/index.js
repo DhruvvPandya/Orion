@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from 'react';
-import { View, Text, Image, PermissionsAndroid } from 'react-native';
+import { View, Text, Image, PermissionsAndroid, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Feather from "react-native-vector-icons/Feather";
@@ -33,11 +33,33 @@ const MyProfile = () => {
     );
   };
 
+  const onProfilePicSuccess = () => {
+    setLoading(false)
+  };
+
+  const onProfilePic = (response) => {
+    console.log('response', response)
+      let data = new FormData();
+        data.append('photo', {
+          type: response.mime,
+          uri: response.path,
+          name: 'profile_photo.jpeg',
+        });
+        Api.postApicallToken(
+          ApiConstants.BASE_URL + ApiConstants.UPDATE_PROFILEPIC,
+          data,
+          onProfilePicSuccess
+        );
+  };
+
   useEffect(() => {
     onUserInfo();
-    setPhoto(userInfo?.profile_photo_url)
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+  }, [userInfo?.profile_photo_url]);
+
+  useEffect(() => {
+    setPhoto(userInfo?.profile_photo_url)
   }, [userInfo?.profile_photo_url]);
 
   const fromGallery = () => {
@@ -48,14 +70,8 @@ const MyProfile = () => {
     }).then(response => {
       setPhoto(response.path);
       actionSheetRef.current?.hide();
-      const form = new FormData();
-      form.append('media', {
-        type: 'image/jpeg',
-        uri: response.path,
-        name: 'profile_photo.jpeg',
-      });
+      onProfilePic(response)
     });
-    
   };
 
   const fromCamera = () => {
@@ -67,13 +83,7 @@ const MyProfile = () => {
       .then(response => {
         setPhoto(response.path);
         actionSheetRef.current?.hide();
-        const form = new FormData();
-        form.append('media', {
-          type: 'image/jpeg',
-          uri: response.path,
-          name: 'profile_photo.jpeg',
-        });
-
+        onProfilePic(response)
       })
       .catch(err => {
         console.log('image error', err.message);
