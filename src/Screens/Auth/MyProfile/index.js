@@ -15,12 +15,10 @@ import { scale } from 'react-native-size-matters';
 
 const actionSheetRef = createRef();
 
-
 const MyProfile = () => {
   const [userInfo, setUserInfo] = useState("");
   const [loading, setLoading] = useState(false);
   const [profile_photo, setPhoto] = useState(null);
-
 
   const onUserInfoSuccess = async (data) => {
     setLoading(false)

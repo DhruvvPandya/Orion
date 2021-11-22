@@ -16,6 +16,9 @@ import ActiveOrder from "src/Screens/Auth/ActiveOrder";
 import theme from 'src/Utils/theme'
 import fonts from "src/Utils/fonts";
 import DrawerView from "src/Components/DrawerView";
+import DeviceInfo from 'react-native-device-info';
+
+const hasNotch = DeviceInfo.hasNotch();
 
 const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -100,7 +103,7 @@ const Navigation = () => {
           tabBarInactiveTintColor: theme.WHITE,
           tabBarStyle: {
             backgroundColor: theme.BACKGROUND,
-            height: scale(55),
+            height: Platform.OS === 'ios' && hasNotch ? scale(70) : scale(55),
             padding: 0
           },
           tabStyle: {
