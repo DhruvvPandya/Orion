@@ -56,7 +56,7 @@ const MyProfile = () => {
     onUserInfo();
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
-  }, [userInfo?.profile_photo_url]);
+  }, []);
 
   useEffect(() => {
     setPhoto(userInfo?.profile_photo_url)

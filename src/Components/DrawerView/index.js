@@ -3,7 +3,7 @@ import React from 'react';
 import {View, Text, Image} from 'react-native';
 import styles from './styles';
 
-const DrawerView = ({navigation}) => {
+const DrawerView = ({navigation, userImage}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageView}>

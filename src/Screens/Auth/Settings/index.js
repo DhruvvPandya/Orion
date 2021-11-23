@@ -9,21 +9,25 @@ import { scale } from 'react-native-size-matters';
 
 const Settings = () => {
   const [hidePass, setHidePass] = useState(true);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [reNewpassword, setReNewPassword] = useState("");
 
   return (
     <SafeAreaView style={styles.MainCntainer}>
       <Header Title={'Settings'} />
-      <View style={[styles.PwdContainer,{    marginTop: scale(18)
-}]}>
+      <View style={[styles.PwdContainer,{ marginTop: scale(18)}]}>
             <View style={styles.PwdView}>
             <Image source={require("src/Assets/images/lock.png")} style={styles.IconStyle}/>
             <View style={styles.textContainer}>
-              <Text style={styles.TitleText}>Password</Text>
+              <Text style={styles.TitleText}>Enter Old Password</Text>
               <TextInput
                 style={styles.DetailsText}
                 placeholder={"Password"}
                 placeholderTextColor={theme.BLACK}
                 secureTextEntry={hidePass ? true : false}
+                onChangeText={setOldPassword}
+                value={oldPassword}
               />
             </View>
             </View>
@@ -39,7 +43,7 @@ const Settings = () => {
             <View style={styles.PwdView}>
             <Image source={require("src/Assets/images/lock.png")}  style={styles.IconStyle} />
             <View style={styles.textContainer}>
-              <Text style={styles.TitleText}>Password</Text>
+              <Text style={styles.TitleText}>Enter New Password</Text>
               <TextInput
                 style={styles.DetailsText}
                 placeholder={"Password"}
@@ -56,12 +60,11 @@ const Settings = () => {
               onPress={() => setHidePass(!hidePass)} />
           </View>
           <View style={styles.Line} />
-
           <View style={styles.PwdContainer}>
             <View style={styles.PwdView}>
             <Image source={require("src/Assets/images/lock.png")}  style={styles.IconStyle}/>
             <View style={styles.textContainer}>
-              <Text style={styles.TitleText}>Password</Text>
+              <Text style={styles.TitleText}>Re-enter New Password</Text>
               <TextInput
                 style={styles.DetailsText}
                 placeholder={"Password"}

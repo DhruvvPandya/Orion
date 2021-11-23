@@ -20,6 +20,12 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     paddingRight: scale(50)
   },
+  pickerTitle: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.BLACK,
+    fontSize: scale(16),
+    marginRight: scale(8),
+  },
   TopView: {
     backgroundColor: theme.YELLOW,
     paddingHorizontal: scale(35),
@@ -37,7 +43,8 @@ const styles = StyleSheet.create({
     borderRadius: scale(55)
   },
   TopDeatils: {
-    marginLeft: scale(20)
+    marginLeft: scale(20),
+    alignSelf: 'center'
   },
   ListView: {
     flex: 1
@@ -64,16 +71,22 @@ const styles = StyleSheet.create({
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
     fontSize: scale(30),
-    marginTop: scale(18)
+    marginTop: scale(15)
   },
   DataText:{
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
     fontSize: scale(14),
   },
+  DataTextView:{
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.WHITE,
+    fontSize: scale(14),
+    marginTop: scale(16),
+    marginBottom: scale(2)
+  },
   HorizontalView: {
     flexDirection: 'row',
-    marginTop: scale(16),
     justifyContent: 'space-between'
   },
   FooterView: {
@@ -109,7 +122,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: scale(8),
     alignItems: 'center',
-    marginRight: scale(16)
+    marginRight: scale(16),
+    
   },
 });
 export default styles;
