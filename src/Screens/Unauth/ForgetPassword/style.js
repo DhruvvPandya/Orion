@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
     borderRadius: scale(15),
     marginTop: scale(20),
     paddingVertical: scale(33),
+    paddingHorizontal: scale(20)
   },
   InputContainer: {
     flexDirection: 'row',
-    marginHorizontal: scale(20),
     alignItems: 'center',
   },
   usernameTitle: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   Line: {
     height: scale(1),
-    width: '90%',
+    width: '100%',
     backgroundColor: theme.WHITE,
     marginVertical: scale(10),
     marginBottom: scale(8),

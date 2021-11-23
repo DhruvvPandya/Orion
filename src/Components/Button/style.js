@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(6),
     backgroundColor: theme.YELLOW,
     paddingVertical: scale(10),
-    marginHorizontal: scale(15),
+    // marginHorizontal: scale(15),
   },
   btnText: {
     color: theme.BLACK,

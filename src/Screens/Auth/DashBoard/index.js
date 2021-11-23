@@ -32,7 +32,7 @@ const DashBoard = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.MainCntainer}>
       <Header Title={'DashBoard'} />
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <FlatList
           ListHeaderComponent={
             <View>
@@ -130,7 +130,7 @@ const DashBoard = ({ navigation }) => {
             </View>
           )} />
 
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
