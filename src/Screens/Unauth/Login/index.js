@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Image, View, Text, TextInput, ScrollView,Pressable } from "react-native";
+import { Image, View, Text, TextInput, ScrollView, Pressable } from "react-native";
 import { scale } from "react-native-size-matters";
 import theme from "src/Utils/theme";
+import Snackbar from 'react-native-snackbar';
 import styles from "./style";
 import Icon from 'react-native-vector-icons/Feather';
 import { Switch } from "react-native-switch";
@@ -34,11 +35,19 @@ const Login = ({ navigation }) => {
       email: username,
       password: password,
     };
-    Api.postApicall(
-      ApiConstants.BASE_URL + ApiConstants.LOGIN,
-      params,
-      onLoginSuccess
-    );
+    {
+      username.length > 0 && password.length > 0? (
+        Api.postApicall(
+          ApiConstants.BASE_URL + ApiConstants.LOGIN,
+          params,
+          onLoginSuccess
+        )
+      ) : Snackbar.show({
+        text: 'Enter UserName Or Password',
+        duration: Snackbar.LENGTH_SHORT,
+      }),
+      setLoading(false)
+    }
   };
 
   return (
@@ -69,18 +78,18 @@ const Login = ({ navigation }) => {
         <View style={styles.Container}>
           <View style={styles.PwdContainer}>
             <View style={styles.PwdView}>
-            <Image source={require("../../../Assets/images/lock.png")} />
-            <View style={styles.textContainer}>
-              <Text style={styles.usernameTitle}>Password</Text>
-              <TextInput
-                style={styles.usernameDetails}
-                placeholder={"Password"}
-                placeholderTextColor={theme.WHITE}
-                secureTextEntry={hidePass ? true : false}
-                onChangeText={setPassword}
-                value={password}
-              />
-            </View>
+              <Image source={require("../../../Assets/images/lock.png")} />
+              <View style={styles.textContainer}>
+                <Text style={styles.usernameTitle}>Password</Text>
+                <TextInput
+                  style={styles.usernameDetails}
+                  placeholder={"Password"}
+                  placeholderTextColor={theme.WHITE}
+                  secureTextEntry={hidePass ? true : false}
+                  onChangeText={setPassword}
+                  value={password}
+                />
+              </View>
             </View>
             <Icon name={hidePass ? 'eye-off' : 'eye'}
               size={scale(18)}
