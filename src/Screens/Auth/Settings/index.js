@@ -10,6 +10,9 @@ import { scale } from 'react-native-size-matters';
 
 const Settings = () => {
   const [hidePass, setHidePass] = useState(true);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [reNewpassword, setReNewPassword] = useState("");
 
   return (
     <SafeAreaView style={styles.MainCntainer}>
@@ -24,6 +27,7 @@ const Settings = () => {
             <TextInput
               style={styles.DetailsText}
               placeholder={"Password"}
+              onChangeText={setOldPassword}
               placeholderTextColor={theme.BLACK}
               secureTextEntry={hidePass ? true : false}
             />
@@ -79,9 +83,8 @@ const Settings = () => {
           onPress={() => setHidePass(!hidePass)} />
       </View>
       <View style={styles.Line} />
+
       <Button Title={"Submit"} />
-
-      <Button />
     </SafeAreaView>
   );
 };

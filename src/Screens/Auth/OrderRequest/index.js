@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './style';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import RNPickerSelect from "react-native-picker-select";
+// import RNPickerSelect from "react-native-picker-select";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Header from 'src/Components/Header';
@@ -74,7 +74,7 @@ const OrderRequest = () => {
                       required: true,
                     }}
                     render={({ field: { onChange } }) => ( */}
-                      <RNPickerSelect
+                      {/* <RNPickerSelect
                         items={data}
                         style={{
                           inputAndroid: {
@@ -98,7 +98,7 @@ const OrderRequest = () => {
                           );
                         }}
                         useNativeAndroidPickerStyle={false}
-                      />
+                      /> */}
                      {/* )} /> */}
 
                   <View style={styles.CardLine} />
@@ -130,7 +130,7 @@ const OrderRequest = () => {
                       <Text style={styles.CardDetailsText}>Charge</Text>
                     </View>
                     <View style={{ flex: 0.1 }}>
-                      <RNPickerSelect
+                      {/* <RNPickerSelect
                         items={data}
                         style={{
                           inputAndroid: styles.ProductIPIndroid,
@@ -144,7 +144,7 @@ const OrderRequest = () => {
                           );
                         }}
                         useNativeAndroidPickerStyle={false}
-                      />
+                      /> */}
                     </View>
                   </View>
                   
@@ -193,7 +193,7 @@ const OrderRequest = () => {
         <Pressable style={styles.UploadContainer} >
           <Text style={styles.UploadText}>Upload Invoice/ Payment Receipt</Text>
         </Pressable>
-        
+
         <Button Title={'Preview'} />
       </ScrollView>
     </SafeAreaView>

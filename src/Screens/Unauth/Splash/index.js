@@ -8,7 +8,8 @@ const Splash = () => {
   useEffect( () => {
     setTimeout(async () => {
       await SplashScreen.hide();
-      const getLoginToken =  await getSessionData('LoginToken');
+      const getLoginToken =  await getSessionData('SignIn');
+      console.log('getLoginToken', getLoginToken)
       if (getLoginToken === null) {
         console.log('getAuthorizeToken');
         navigation.dispatch(
@@ -19,7 +20,6 @@ const Splash = () => {
         );
       }
       if (getLoginToken !== null) {
-        console.log('123');
         navigation.dispatch(
           CommonActions.reset({
             index: 1,

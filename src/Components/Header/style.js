@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   LogoutModalStyle: {
-    height: '30%',
+    // height: '30%',
     width: '75%',
     backgroundColor: theme.WHITE,
-    paddingHorizontal: scale(12),
+    paddingHorizontal: scale(20),
     paddingVertical: scale(25)
   },
   LogoutTitle: {
@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   Horizontal: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: scale(30)
+    marginTop: scale(12),
+    paddingHorizontal: scale(20),
   },
   btnTxt: {
     fontFamily: fonts.JosefinSans_Regular,
@@ -75,6 +76,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(20),
     paddingVertical: scale(8),
     borderRadius: scale(8)
-  }
+  },
+  Image:{
+    height: scale(38),
+    width: scale(38),
+    backgroundColor: '#f2f2f2',
+    borderRadius: scale(25)
+  },
+  modalContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#0909095E'
+	},
+  drawerContainer: {
+		flex: 1,
+		backgroundColor: '#0909095E'
+	},
 });
 export default styles;
