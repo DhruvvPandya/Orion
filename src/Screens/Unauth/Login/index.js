@@ -12,6 +12,7 @@ import { setSessionData } from "src/Utils/asyncStorage";
 import Loader from "src/Components/Loader";
 
 export const LOGIN_KEY = "LoginToken";
+export const SIGN_IN = "SignIn";
 
 const Login = ({ navigation }) => {
   const [hidePass, setHidePass] = useState(true);
@@ -21,7 +22,8 @@ const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const onLoginSuccess = async (data) => {
-    isSignIn && (await setSessionData(LOGIN_KEY, data?.data?.token));
+    await setSessionData(LOGIN_KEY, data?.data?.token);
+    isSignIn && await setSessionData(SIGN_IN, "isSignIn");
     setLoading(false)
     data.data.token && navigation.navigate("TabNavigator");
   };
