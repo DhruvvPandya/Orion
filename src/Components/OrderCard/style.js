@@ -1,16 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
-import theme from "../../../Utils/theme";
-import fonts from "../../../Utils/fonts";
+import theme from "../../Utils/theme";
+import fonts from "../../Utils/fonts";
+import DeviceInfo from 'react-native-device-info';
 
+const hasNotch = DeviceInfo.hasNotch();
 const styles = StyleSheet.create({
-  MainCntainer: {
-    flex: 1,
-    backgroundColor: theme.WHITE
-  },
-  Container:{
-   paddingHorizontal: scale(16),
-  },
   Ordercard:{
     backgroundColor: theme.BACKGROUND_VARIENT_1,
     height: scale(220),

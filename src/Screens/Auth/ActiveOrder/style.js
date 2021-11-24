@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
   MainCntainer: {
     flex: 1,
     backgroundColor: theme.WHITE,
-    alignItems: "center",
   },
   Title: {
     fontFamily: fonts.JosefinSans_Regular,

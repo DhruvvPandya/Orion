@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TextInput, Pressable } from 'react-native';
+import React, { useState, createRef } from 'react';
+import { View, Text, ScrollView, TextInput, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './style';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-// import RNPickerSelect from "react-native-picker-select";
+import ActionSheet from 'react-native-actions-sheet';
+import ImagePicker from 'react-native-image-crop-picker';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Header from 'src/Components/Header';
 import Button from 'src/Components/Button';
 import { scale } from 'react-native-size-matters';
+import ModalDropdown from "react-native-modal-dropdown";
 import fonts from '../../../Utils/fonts';
 import theme from '../../../Utils/theme';
 
+const actionSheetRef = createRef();
+
+
 const OrderRequest = () => {
   const [isPaymentMode, setPaymentMode] = useState(false);
+  const [profile_photo, setPhoto] = useState();
+
   const {
     control,
     handleSubmit,
@@ -28,7 +35,6 @@ const OrderRequest = () => {
           qty: "",
           charge_price: "",
           cash_price: "",
-
         },
       ],
     },
@@ -39,12 +45,37 @@ const OrderRequest = () => {
       name: "items",
     });
 
-    const [quntity,setQuentity]=useState(0)
-  const data = ([
-    { label: 'Baseball', value: 'baseball' },
-    { label: 'Hockey', value: 'hockey' },
-  ]);
- 
+  const [quntity, setQuentity] = useState(0)
+  const data = ['AA', 'BB'];
+
+  const fromGallery = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(response => {
+      setPhoto(response.path);
+      actionSheetRef.current?.hide();
+      onProfilePic(response)
+    });
+  };
+
+  const fromCamera = () => {
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    })
+      .then(response => {
+        setPhoto(response.path);
+        actionSheetRef.current?.hide();
+        onProfilePic(response)
+      })
+      .catch(err => {
+        console.log('image error', err.message);
+      });
+  };
+
 
   return (
     <SafeAreaView style={styles.MainCntainer}>
@@ -67,39 +98,31 @@ const OrderRequest = () => {
                   <Text style={styles.CardTitleText}>Category/Type</Text>
                   {index == 0 ? null : <AntDesign name="closecircleo" size={scale(15)} color={theme.GRAY} onPress={(key) => remove(key)} />}
                 </View>
-                <View>
+                <View >
                   {/* <Controller
                     control={control}
                     rules={{
                       required: true,
                     }}
                     render={({ field: { onChange } }) => ( */}
-                      {/* <RNPickerSelect
-                        items={data}
-                        style={{
-                          inputAndroid: {
-                            height: scale(20),
-                            padding: 0,
-                            fontSize: 18,
-                            color: theme.BLACK,
-                            fontFamily: fonts.JosefinSans_Regular,
-                          },
-                          iconContainer: {
-                            height: scale(25),
-                            padding: 0,
-                          },
-                          placeholder: styles.PlaceHolder,
-                          inputAndroidContainer: styles.IPandroidContainer
-                        }}
-                        onValueChange={(item) => console.log('Selected item', item)}
-                        Icon={() => {
-                          return (
-                            <Ionicons name="chevron-down" size={scale(22)} color="black" />
-                          );
-                        }}
-                        useNativeAndroidPickerStyle={false}
-                      /> */}
-                     {/* )} /> */}
+                  <View style={styles.DorpdownView}>
+                    <ModalDropdown
+                      defaultValue={"Select"}
+                      textStyle={styles.pickerTitle}
+                      dropdownTextStyle={styles.pickerTitle}
+                      renderSeparator={false}
+                      showsVerticalScrollIndicator={false}
+                      dropdownStyle={{ height: "20%", width: '86%' }}
+                      options={data}
+                    />
+                    <Ionicons
+                      name={"md-chevron-down"}
+                      size={20}
+                      color={theme.BLACK}
+                      style={{ alignSelf: "center" }}
+                    />
+                  </View>
+                  {/* )} /> */}
 
                   <View style={styles.CardLine} />
                   <View style={styles.Horizontal}>
@@ -119,41 +142,37 @@ const OrderRequest = () => {
                     required: true,
                   }} 
                   render={({ field: { onChange } })=> ( */}
-                  <View style={styles.Horizontal}>
-                    <View style={styles.VariantView}>
-                      <Text style={styles.CardDetailsText}>Variant</Text>
-                    </View>
+                  <View style={styles.DorpdownView}>
+                    <ModalDropdown
+                      defaultValue={"Variant"}
+                      style={styles.VariantView}
+                      textStyle={styles.pickerTitle}
+                      dropdownTextStyle={styles.pickerTitle}
+                      renderSeparator={false}
+                      showsVerticalScrollIndicator={false}
+                      dropdownStyle={{ width: '86%' }}
+                      options={data}
+                    />
                     <View style={styles.CashView}>
                       <Text style={styles.CardDetailsText}>Cash</Text>
                     </View>
                     <View style={styles.ChargeView}>
                       <Text style={styles.CardDetailsText}>Charge</Text>
                     </View>
-                    <View style={{ flex: 0.1 }}>
-                      {/* <RNPickerSelect
-                        items={data}
-                        style={{
-                          inputAndroid: styles.ProductIPIndroid,
-                          iconContainer: styles.ProducticonContainer,
-                          placeholder: styles.ProductPlaceHolder,
-                        }}
-                        onValueChange={(item) => console.log('Selected item', item)}
-                        Icon={() => {
-                          return (
-                            <Ionicons name="chevron-down" size={scale(22)} color="black" />
-                          );
-                        }}
-                        useNativeAndroidPickerStyle={false}
-                      /> */}
-                    </View>
+                    <Ionicons
+                      name={"md-chevron-down"}
+                      size={20}
+                      color={theme.BLACK}
+                      style={{ alignSelf: "center" }}
+                    />
                   </View>
-                  
+
                   <View style={styles.CardLine} />
                   <Text style={styles.CardTitleText}>Enter Quantity</Text>
                   <View style={styles.QualityContainer}>
-                    <AntDesign name="minuscircleo" size={scale(25)} color={theme.GRAY} onPress={()=>setQuentity(quntity - 1)} />
+                    <AntDesign name="minuscircleo" size={scale(25)} color={theme.GRAY} onPress={() => setQuentity(quntity - 1)} />
                     <Text style={styles.CardDetailsText}>{quntity}</Text>
-                    <AntDesign name="pluscircleo" size={scale(25)} color={theme.DARK_BLUE} onPress={()=>setQuentity(quntity+1)}/>
+                    <AntDesign name="pluscircleo" size={scale(25)} color={theme.DARK_BLUE} onPress={() => setQuentity(quntity + 1)} />
                   </View>
                 </View>
               </View>
@@ -190,10 +209,31 @@ const OrderRequest = () => {
           <Text style={styles.BTNtext}>400</Text>
         </View>
         <Text style={styles.Title}>Upload File</Text>
-        <Pressable style={styles.UploadContainer} >
+        <Pressable style={styles.UploadContainer} onPress={() => actionSheetRef.current?.setModalVisible()} >
           <Text style={styles.UploadText}>Upload Invoice/ Payment Receipt</Text>
         </Pressable>
-
+        <ActionSheet ref={actionSheetRef}>
+          <View style={styles.actionsheet}>
+            <Text style={styles.titleText}>Select an image</Text>
+            <Text
+              onPress={() => fromCamera()}
+              style={styles.titleTextBlack}>
+              From Camera
+            </Text>
+            <Text
+              onPress={() => fromGallery()}
+              style={styles.titleTextBlack}>
+              From Gallery
+            </Text>
+            <Text
+              onPress={() => actionSheetRef.current?.hide()}
+              style={styles.titleTextBlack}>
+              Cancel
+            </Text>
+          </View>
+        </ActionSheet>
+        {console.log('Profilr Photo', profile_photo)}
+        {profile_photo ? <Image source={{ uri: profile_photo }} style={styles.InvoiceImage} /> : null}
         <Button Title={'Preview'} />
       </ScrollView>
     </SafeAreaView>

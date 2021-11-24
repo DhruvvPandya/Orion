@@ -6,7 +6,7 @@ import styles from './style';
 const ActiveOrder = () => {
   return (
     <SafeAreaView style={styles.MainCntainer}>
-      <Text style={styles.Title}>RequestResponse</Text>
+      <Header Title={'Active Order'} />
     </SafeAreaView>
   );
 };

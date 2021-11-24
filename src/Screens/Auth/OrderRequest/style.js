@@ -15,27 +15,52 @@ const styles = StyleSheet.create({
     marginTop: scale(23),
     textTransform: 'uppercase'
   },
-  ProductIPIndroid:{
+  titleText: {
+    fontSize: scale(14),
+    color: theme.BACKGROUND,
+    fontFamily: fonts.JosefinSans_Regular,
+  },
+  actionsheet: {
+    height: verticalScale(200),
+    paddingHorizontal: scale(15),
+    justifyContent: 'space-evenly',
+  },
+  titleTextBlack: {
+    fontSize: scale(15),
+    color: theme.BLACK,
+    fontFamily: fonts.JosefinSans_Regular,
+  },
+  ProductIPIndroid: {
     height: scale(20),
     padding: 0,
     fontSize: 18,
     color: theme.BACKGROUND_VARIENT_1,
     fontFamily: fonts.JosefinSans_Regular,
   },
-  ProducticonContainer:{
+  ProducticonContainer: {
     height: scale(25),
     padding: 0,
     flex: 0.1,
     marginTop: scale(5),
+  },
+  pickerTitle: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.BLACK,
+    fontSize: scale(16),
   },
   ProductPlaceHolder: {
     color: theme.BACKGROUND_VARIENT_1,
     fontSize: 18,
     fontFamily: fonts.JosefinSans_Regular,
   },
-  HeaderContainer:{
-flexDirection: 'row',
-justifyContent:'space-between'
+  HeaderContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  DorpdownView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   Container: {
     paddingHorizontal: scale(16),
@@ -119,13 +144,13 @@ justifyContent:'space-between'
     fontSize: scale(12),
     textTransform: 'uppercase'
   },
-  AddContainer:{
-flexDirection: 'row',
-alignItems: 'center',
-justifyContent: 'space-between',
-paddingHorizontal: scale(12),
-backgroundColor: theme.BOADER,
-paddingVertical: scale(8)
+  AddContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: scale(12),
+    backgroundColor: theme.BOADER,
+    paddingVertical: scale(8)
   },
   Selected: {
     height: scale(22),
@@ -187,17 +212,25 @@ paddingVertical: scale(8)
     width: '75%',
     alignItems: 'center',
     marginTop: scale(8),
-    marginBottom: scale(25)
+    marginBottom: scale(18)
   },
   IPandroidContainer: {
     color: theme.BLACK,
     fontSize: scale(18),
     fontFamily: fonts.Proxima_Nova_Regular,
   },
-  PlaceHolder:{
+  PlaceHolder: {
     color: theme.BLACK,
     fontSize: scale(18),
     fontFamily: fonts.JosefinSans_Regular,
   },
+  InvoiceImage: {
+    height: scale(130),
+    width: scale(90),
+    alignSelf: 'center',
+    marginBottom: scale(25)
+  },
+
+
 });
 export default styles;
