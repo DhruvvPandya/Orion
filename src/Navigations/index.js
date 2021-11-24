@@ -17,6 +17,8 @@ import theme from 'src/Utils/theme'
 import fonts from "src/Utils/fonts";
 import DrawerView from "src/Components/DrawerView";
 import DeviceInfo from 'react-native-device-info';
+import OrderDetails from "../Screens/Auth/OrderDetails";
+import PreviewOrder from "../Screens/Auth/PreviewOrder";
 
 const hasNotch = DeviceInfo.hasNotch();
 
@@ -62,6 +64,7 @@ const Navigation = () => {
         <OrderRequestStack.Screen name={"MyProfile"} component={MyProfile} />
         <OrderRequestStack.Screen name={"MyOrders"} component={MyOrders} />
         <OrderRequestStack.Screen name={"Settings"} component={Settings} />
+        <OrderRequestStack.Screen name={'PreviewOrder'} component={PreviewOrder} />
 
       </OrderRequestStack.Navigator>
 
@@ -182,6 +185,7 @@ const Navigation = () => {
         <Stack.Screen name={'MyProfile'} component={MyProfile} />
         <Stack.Screen name={'MyOrders'} component={MyOrders} />
         <Stack.Screen name={'Settings'} component={Settings} />
+        <Stack.Screen name={'OrderDetails'} component={OrderDetails} />
 
       </Stack.Navigator>
     );

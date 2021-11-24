@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity,ScrollView} from 'react-native';
 import theme from '../../Utils/theme';
 import style from './style';
 const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
@@ -30,8 +30,7 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
   }, [initialTab]);
   return (
     <View style={style.mainview}>
-      <View>
-        <View style={style.footerview}>
+        <ScrollView horizontal={true} contentContainerStyle={style.footerview} showsHorizontalScrollIndicator={false}>
           {footer.map((data, key) => (
             <TouchableOpacity
               key={key}
@@ -53,9 +52,7 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
               </View>
             </TouchableOpacity>
           ))}
-        </View>
-      </View>
-      {/* <View style={style.pageContainer}>{showPage()}</View> */}
+        </ScrollView>
     </View>
   );
 };

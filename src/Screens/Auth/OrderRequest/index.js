@@ -17,7 +17,7 @@ import theme from '../../../Utils/theme';
 const actionSheetRef = createRef();
 
 
-const OrderRequest = () => {
+const OrderRequest = ({navigation}) => {
   const [isPaymentMode, setPaymentMode] = useState(false);
   const [profile_photo, setPhoto] = useState();
 
@@ -83,7 +83,7 @@ const OrderRequest = () => {
       <ScrollView contentContainerStyle={styles.Container}>
         <Text style={styles.Title}>Create New Order Request</Text>
         <Text style={styles.TitleText}>Store Code</Text>
-        <TextInput style={styles.DetailsText} placeholder={'Store Code'} />
+        <Text style={styles.DetailsText}>21o8</Text>
         <View style={styles.Line} />
         <Text style={styles.TitleText}>Enter the Sales Invoice (SI) Number</Text>
         <TextInput style={styles.DetailsText} placeholder={'Invoice Number'} />
@@ -234,7 +234,7 @@ const OrderRequest = () => {
         </ActionSheet>
         {console.log('Profilr Photo', profile_photo)}
         {profile_photo ? <Image source={{ uri: profile_photo }} style={styles.InvoiceImage} /> : null}
-        <Button Title={'Preview'} />
+        <Button Title={'Preview'} onPress={()=>navigation.navigate('PreviewOrder')}/>
       </ScrollView>
     </SafeAreaView>
   );

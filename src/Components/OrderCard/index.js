@@ -4,7 +4,7 @@ import { View, Text, Pressable,  } from "react-native";
 import styles from "./style";
 import { useNavigation } from "@react-navigation/native";
 
-const Ordercard = ({ data}) => {
+const Ordercard = ({ data ,onPress}) => {
   const navigation = useNavigation();
   const [isModalVisible, setisModalVisible] = useState(false);
  
@@ -35,7 +35,7 @@ const Ordercard = ({ data}) => {
             </View>
           </View>
           <View style={styles.FooterView}>
-            <Pressable style={styles.BtnView}><Text style={styles.btnText}>Details</Text></Pressable>
+            <Pressable style={styles.BtnView} onPress={onPress} ><Text style={styles.btnText}>Details</Text></Pressable>
             <Text style={styles.statusText}>Approved</Text>
           </View>
         </View>

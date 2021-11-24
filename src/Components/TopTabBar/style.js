@@ -6,7 +6,6 @@ export default ScaledSheet.create({
   mainview: {
     height: scale(60),
     width: '100%',
-    // flex: 1,
   },
   pageContainer: {
     flex: 1,
@@ -16,7 +15,7 @@ export default ScaledSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    width: '100%',
+    paddingHorizontal: scale(12)
   },
   tabview: {
     alignItems: 'center',

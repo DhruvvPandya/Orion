@@ -7,15 +7,15 @@ import Ordercard from '../../../Components/OrderCard';
 import TopTabBar from '../../../Components/TopTabBar';
 import styles from './style';
 
-const MyOrders = () => {
+const MyOrders = ({navigation}) => {
   const [tabNo, setTabNo] = useState(0);
   return (
     <SafeAreaView style={styles.MainCntainer}>
-      <Header Title={'My Profile'} />
+      <Header Title={'My Orders'} />
       <TopTabBar setTabNo={setTabNo} />
       {console.log(tabNo)}
       <View style={styles.Container}>
-        <Ordercard />
+        <Ordercard onPress={()=>navigation.navigate('OrderDetails',{ScreenName:'Order Details'})}/>
       </View>
     </SafeAreaView>
   );
