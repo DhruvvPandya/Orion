@@ -6,12 +6,13 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
   const [footer] = useState([
     // {name: 'Home'},
     {name: 'All'},
-    {name: 'PENDING'},
+    {name: 'Pending'},
     {name: 'Cancelled'},
     {name: 'Approved'},
     {name: 'Rejected'},
+    {name: 'Re-Requested'},
   ]);
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState('All');
   const [selectedtab, setselectedTab] = useState(0);
   const selectTab = value => {
     setTab(value);
@@ -35,7 +36,7 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
             <TouchableOpacity
               key={key}
               activeOpacity={0.7}
-              onPress={() => selectTab(key)}
+              onPress={() => selectTab(data.name)}
               style={[style.tabview]}>
               <View
                 style={[
