@@ -6,12 +6,12 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Header from 'src/Components/Header';
 import Button from 'src/Components/Button';
 import { scale } from 'react-native-size-matters';
-import fonts from '../../../Utils/fonts';
+import Feather from "react-native-vector-icons/Feather";
 import theme from '../../../Utils/theme';
 
 
 
-const PreviewOrder = () => {
+const PreviewOrder = ({navigation}) => {
   const [isPaymentMode, setPaymentMode] = useState(false);
   const [profile_photo, setPhoto] = useState();
 
@@ -19,7 +19,16 @@ const PreviewOrder = () => {
     <SafeAreaView style={styles.MainCntainer}>
       <Header Title={'Preview Order Request'} />
       <ScrollView contentContainerStyle={styles.Container}>
+        <View style={styles.Horizontal}>
         <Text style={styles.Title}>Preview order</Text>
+        <Feather
+            name={'edit'}
+            color={theme.BACKGROUND}
+            size={scale(20)}
+            style={{marginTop: scale(20)}}
+            onPress={()=>navigation.goBack()}
+             />
+        </View>
         <Text style={styles.TitleText}>Store Code</Text>
         <Text style={styles.DetailsText}>21o8</Text>
         <View style={styles.Line} />
@@ -27,16 +36,35 @@ const PreviewOrder = () => {
         <Text style={styles.DetailsText}>21o8</Text>
         <View style={styles.Line} />
         <Text style={styles.Title}>Order Details</Text>
-        <Text style={styles.Title}>Payment Details</Text>
-        <Text style={styles.TitleText}>Select Mode of Payment</Text>
         <View style={styles.ProductCard}>
           <View style={styles.PCHorizontailView}>
-
+            <View style={styles.PCCategoryView}><Text style={styles.PCTitleText}>Category/Type</Text></View>
+            <View style={styles.PCVarientView}><Text style={styles.PCTitleText}>Varient</Text></View>
+            <View style={styles.PCCashView}><Text style={styles.PCTitleText}>Cash</Text></View>
+            <View style={styles.PCChargeView}><Text style={styles.PCTitleText}>Charge</Text></View>
           </View>
+
+          <View style={styles.PCHorizontailView}>
+            <View style={styles.PCCategoryView}><Text style={styles.PCDetailsText}>Category/Type</Text></View>
+            <View style={styles.PCVarientView}><Text style={styles.PCDetailsText}>Varient</Text></View>
+            <View style={styles.PCCashView}><Text style={styles.PCDetailsText}>5</Text></View>
+            <View style={styles.PCChargeView}><Text style={styles.PCDetailsText}>10</Text></View>
+          </View>
+          <View style={styles.CardLine} />
         </View>
-        <Text style={styles.Title}>payment summery</Text>
-        <Text style={styles.PaymentTitleText}>Payment Mode</Text>
-        <Text style={styles.PaymentDetailsText}>Cash</Text>
+        <Text style={styles.TitleText}>Payment Mode</Text>
+        <Text style={styles.DetailsText}>Cash</Text>
+        <View style={styles.GrayLine} />
+        <Text style={styles.TitleText}>Invoice / Payment Receipt</Text>
+        <Text style={styles.DetailsText}>invoice.png</Text>
+        <View style={styles.GrayLine} />
+        <Text style={styles.Title}>Payment Detail summary</Text>
+        <View style={[styles.HorizontalView,{marginTop: scale(13)}]}>
+          <View style={styles.Selected}>
+            <View style={styles.InnerDotSelected} />
+          </View>
+          <Text style={styles.PaymentDetailsText}>Cash</Text>
+        </View>
         <View style={styles.HorizontalView}>
           <View style={styles.VariantView}>
             <Text style={styles.PaymentTitleText}>Varient</Text>
@@ -74,7 +102,7 @@ const PreviewOrder = () => {
           <Text style={styles.BTNtext}>400</Text>
         </View>
 
-        <Button Title={'Preview'} />
+        <Button Title={'Submit'} />
       </ScrollView>
     </SafeAreaView>
   );

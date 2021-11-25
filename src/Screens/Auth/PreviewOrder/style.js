@@ -15,8 +15,20 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     marginTop: scale(23)
   },
-  PCHorizontailView:{
-flexDirection: 'row'
+  PCHorizontailView: {
+    flexDirection: 'row'
+  },
+  PCCategoryView: {
+    flex: 0.4,
+  },
+  PCVarientView: {
+    flex: 0.3,
+  },
+  PCCashView: {
+    flex: 0.15,
+  },
+  PCChargeView: {
+    flex: 0.15,
   },
   titleText: {
     fontSize: scale(14),
@@ -97,8 +109,8 @@ flexDirection: 'row'
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
-  Flex:{
-    flex:0.48,
+  Flex: {
+    flex: 0.48,
   },
   Line: {
     height: scale(1.5),
@@ -108,10 +120,30 @@ flexDirection: 'row'
     alignSelf: "center",
     marginTop: scale(8)
   },
+  GrayLine: {
+    height: scale(1.5),
+    borderColor: theme.DARK_BLUE,
+    width: "100%",
+    backgroundColor: theme.GRAY,
+    alignSelf: "center",
+    marginTop: scale(8),
+    opacity: 0.5
+  },
   ProductCard: {
     backgroundColor: theme.BACKGROUND_VARIENT_1,
     marginVertical: scale(8),
     padding: scale(8)
+  },
+  PCTitleText: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.GRAY,
+    fontSize: scale(12),
+    marginBottom: scale(3)
+  },
+  PCDetailsText: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.BLACK,
+    fontSize: scale(14),
   },
   CardTitleText: {
     fontFamily: fonts.JosefinSans_Regular,
@@ -130,6 +162,8 @@ flexDirection: 'row'
   },
   Horizontal: {
     flexDirection: "row",
+    alignItems:'center',
+    justifyContent: 'space-between'
   },
   RadioBtnConatiner: {
     flexDirection: "row",
@@ -144,7 +178,7 @@ flexDirection: 'row'
     marginTop: scale(12)
   },
   VariantView: {
-    flex: 0.515,
+    flex: 0.4,
   },
   CashView: {
     flex: 0.2,
@@ -174,18 +208,19 @@ flexDirection: 'row'
     paddingVertical: scale(8)
   },
   Selected: {
-    height: scale(22),
-    width: scale(22),
+    height: scale(15),
+    width: scale(15),
     borderRadius: scale(15),
     borderColor: theme.DARK_BLUE,
     backgroundColor: theme.WHITE,
     borderWidth: scale(1.5),
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: scale(10),
   },
   NotSelected: {
-    height: scale(22),
-    width: scale(22),
+    height: scale(7),
+    width: scale(7),
     borderRadius: scale(15),
     borderColor: theme.GRAY,
     backgroundColor: theme.WHITE,
@@ -194,8 +229,8 @@ flexDirection: 'row'
     justifyContent: 'center',
   },
   InnerDotSelected: {
-    height: scale(13),
-    width: scale(13),
+    height: scale(7),
+    width: scale(7),
     borderRadius: scale(15),
     backgroundColor: theme.DARK_BLUE,
   },
@@ -218,7 +253,8 @@ flexDirection: 'row'
     borderRadius: scale(6),
     borderColor: theme.BOADER,
     borderWidth: scale(1.5),
-    marginTop: scale(8)
+    marginTop: scale(8),
+    marginBottom: scale(25)
   },
   UploadText: {
     fontFamily: fonts.JosefinSans_SemiBold,
