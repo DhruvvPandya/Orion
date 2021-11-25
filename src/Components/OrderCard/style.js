@@ -8,9 +8,9 @@ const hasNotch = DeviceInfo.hasNotch();
 const styles = StyleSheet.create({
   Ordercard:{
     backgroundColor: theme.BACKGROUND_VARIENT_1,
-    height: scale(220),
     paddingHorizontal: scale(12),
-    paddingVertical: scale(20)
+    paddingVertical: scale(20),
+    marginVertical: scale(10)
   },
   HeaderView:{
     flexDirection: 'row',
@@ -51,9 +51,8 @@ const styles = StyleSheet.create({
     marginTop: scale(6)
   },
   ProductView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    flexDirection: 'row'
+    // marginTop: scale(8)
   },
   ProductDataView: {
     marginTop: scale(8)
@@ -63,7 +62,6 @@ const styles = StyleSheet.create({
     color: theme.BLACK,
     fontSize: scale(16),
     marginTop: scale(6),
-    textAlign: 'center'
   },
   BtnView: {
     paddingHorizontal: scale(30),

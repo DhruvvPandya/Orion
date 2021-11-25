@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.GRAY,
     fontSize: scale(13),
-    marginTop: scale(10)
+    marginVertical: scale(10)
   },
   PaymentDetailsText: {
     fontFamily: fonts.JosefinSans_Regular,
@@ -133,6 +133,24 @@ const styles = StyleSheet.create({
     fontFamily: fonts.JosefinSans_SemiBold,
     color: theme.BLACK,
     fontSize: scale(16),
+  },
+  modalContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#0909095E'
+	},
+  LogoutModalStyle: {
+    width: '75%',
+    backgroundColor: theme.WHITE,
+    paddingHorizontal: scale(20),
+    paddingVertical: scale(25)
+  },
+  statusText: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.DARK_BLUE,
+    fontSize: scale(22),
+    marginBottom: 10
   },
 });
 export default styles;

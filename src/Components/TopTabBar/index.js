@@ -2,9 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Text, View, TouchableOpacity,ScrollView} from 'react-native';
 import theme from '../../Utils/theme';
 import style from './style';
-const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
+const TopTabBar = ({initialTab = 'All', setTabNo = 0}) => {
   const [footer] = useState([
-    // {name: 'Home'},
     {name: 'All'},
     {name: 'Pending'},
     {name: 'Cancelled'},
@@ -13,7 +12,6 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
     {name: 'Re-Requested'},
   ]);
   const [tab, setTab] = useState('All');
-  const [selectedtab, setselectedTab] = useState(0);
   const selectTab = value => {
     setTab(value);
     setTabNo(value);
@@ -29,6 +27,8 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
   useEffect(() => {
     setTab(initialTab);
   }, [initialTab]);
+
+  console.log('tab', tab)
   return (
     <View style={style.mainview}>
         <ScrollView horizontal={true} contentContainerStyle={style.footerview} showsHorizontalScrollIndicator={false}>
@@ -41,7 +41,7 @@ const TopTabBar = ({initialTab = 0, setTabNo = 0}) => {
               <View
                 style={[
                   style.ContainerView,
-                  {backgroundColor: tab === key ? theme.BOADER : theme.WHITE},
+                  {backgroundColor: tab === data.name ? theme.BOADER : theme.WHITE},
                 ]}>
                 <Text
                   style={[

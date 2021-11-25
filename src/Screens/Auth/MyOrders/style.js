@@ -78,6 +78,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  ModalText: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.DARK_BLUE,
+    fontSize: scale(18),
+  },
   btnText: {
     fontFamily: fonts.JosefinSans_SemiBold,
     color: theme.GRAY,
@@ -89,6 +94,11 @@ const styles = StyleSheet.create({
     fontSize: scale(22),
     marginBottom: 10
   },
+  nullContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+  },
   modalContainer: {
 		flex: 1,
 		justifyContent: 'center',
@@ -96,7 +106,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#0909095E'
 	},
   LogoutModalStyle: {
-    // height: '30%',
     width: '75%',
     backgroundColor: theme.WHITE,
     paddingHorizontal: scale(20),

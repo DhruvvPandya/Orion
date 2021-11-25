@@ -39,5 +39,14 @@ const styles = StyleSheet.create({
     color: theme.BLACK,
     fontSize: scale(14),
   },
+  ModalText: {
+    fontFamily: fonts.JosefinSans_Regular,
+    color: theme.DARK_BLUE,
+    fontSize: scale(18),
+  },
+  nullContainer: {
+	  marginTop: '50%',
+    alignSelf: 'center'
+  },
 });
 export default styles;
