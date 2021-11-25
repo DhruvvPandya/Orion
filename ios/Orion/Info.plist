@@ -36,6 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
+<key>NSBluetoothPeripheralUsageDescription</key>
+<string>We use bluetooth for printing</string>
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>We use bluetooth for printing</string>
 	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

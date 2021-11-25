@@ -35,7 +35,24 @@ const MyOrders = ({ navigation }) => {
       <View style={styles.Container}>
 
         <Ordercard onPress={() => navigation.navigate('OrderDetails', { ScreenName: 'Order Details' })} />
+      {/* <Button Title={"Print"} onPress={() => {connectPrinterStatus ? printTextTest() : setVisibleModal(true)}} /> */}
       </View>
+      <Modal animationType="slide" transparent visible={visibleModal}>
+        <View style={styles.modalContainer}>
+          <View style={styles.LogoutModalStyle}>
+            <Text style={styles.statusText}>Select Printer</Text>
+            {printers.length > 0 ?
+              printers?.map((printer) => (
+                <Pressable onPress={() => connectPrinter(printer)}>
+                  <Text style={styles.btnText}>{`Device Name: ${printer.device_name}`}</Text>
+                </Pressable>
+              ))
+            :
+            <Text style={styles.btnText} onPress={() => setVisibleModal(false)}>Please Enable Bluetooth</Text>
+            }
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

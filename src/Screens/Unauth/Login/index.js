@@ -45,8 +45,7 @@ const Login = ({ navigation }) => {
       ) : Snackbar.show({
         text: 'Enter UserName Or Password',
         duration: Snackbar.LENGTH_SHORT,
-      }),
-      setLoading(false)
+      })
     }
   };
 
