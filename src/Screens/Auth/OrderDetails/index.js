@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Pressable, ScrollView, Modal } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  Modal,
+  Platform,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./style";
 import Header from "../../../Components/Header";
@@ -8,6 +15,7 @@ import theme from "../../../Utils/theme";
 import { scale } from "react-native-size-matters";
 import moment from "moment";
 import { BLEPrinter } from "react-native-thermal-receipt-printer";
+import { request, PERMISSIONS } from "react-native-permissions";
 
 const OrderDetails = ({ route }) => {
   const ScreenName = route.params?.ScreenName;
@@ -16,42 +24,69 @@ const OrderDetails = ({ route }) => {
   const [printers, setPrinters] = useState([]);
   const [currentPrinter, setCurrentPrinter] = useState();
   const [visibleModal, setVisibleModal] = useState(false);
-  const [connectPrinterStatus, setConnectPrinterStatus] = useState(false); 
+  const [connectPrinterStatus, setConnectPrinterStatus] = useState(false);
 
   useEffect(() => {
-    BLEPrinter.init().then(() => {
-      BLEPrinter.getDeviceList().then(setPrinters);
-    });
+    if (Platform.OS === "ios") {
+      request(PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL).then(() => {
+        BLEPrinter.init().then(() => {
+          BLEPrinter.getDeviceList().then(setPrinters);
+        });
+      });
+    } else {
+      BLEPrinter.init().then(() => {
+        BLEPrinter.getDeviceList().then(setPrinters);
+      });
+    }
   }, [visibleModal]);
 
   const connectPrinter = (printer) => {
     //connect printer
     BLEPrinter.connectPrinter(printer.inner_mac_address).then(
-      setCurrentPrinter, 
+      setCurrentPrinter,
       setConnectPrinterStatus(true),
-      setVisibleModal(false)
-,
+      setVisibleModal(false),
       (error) => console.warn(error)
     );
   };
 
   const print = () => {
-      let productList = data?.items?.map((data) => {
-        return `\n<C><CM>${data?.variant_name}</CM></C>\n<M>Qty - ${data?.qty}</M>\n<M>Price - ${data?.price_type === "cash_type"
-        ? data?.cash_price
-        : data?.charge_price}</M>\n<C><CM>Key</CM>\</C>\n${data?.order_items_keys.map((data, index) => {
-          return `<M>${data?.order_items_keys?.length === index+1 ? "keee" : ""}${index+1} - ${data?.key}</M>\n`;
-        }).join("")}<CM>-------------------------------</CM>\n`;
-      });
-      console.log("productList-->", productList.join(""));
-      BLEPrinter.printText(`<C><CM>Company Name</CM>\</C>\n<C> </C>\n<M>Store Code - ${data?.store_code}</M>\n<M>Order Id - 12345</M>\n<M>SI Number - ${data?.sale_invoice_number}</M>\n<CM>--------------------------------</CM>${productList}<C><CM>Total Summary</CM></C>\n<M>Payment Type - ${data?.price_type === "cash_type" ? 'Cash' : 'Charge'}</M>\n<M>Sub Total  - ${data?.subtotal_amount}</M>\n<M>Total Discount  -  ${data?.discount_amount}</M>\n<M>Total Amount -  ${data?.final_amount}</M>\n`);
+    let productList = data?.items?.map((data) => {
+      return `\n<C><CM>${data?.variant_name}</CM></C>\n<M>Qty - ${
+        data?.qty
+      }</M>\n<M>Price - ${
+        data?.price_type === "cash_type" ? data?.cash_price : data?.charge_price
+      }</M>\n<C><CM>Key</CM>\</C>\n${data?.order_items_keys
+        .map((data, index) => {
+          return `<M>${
+            data?.order_items_keys?.length === index + 1 ? "keee" : ""
+          }${index + 1} - ${data?.key}</M>\n`;
+        })
+        .join("")}<CM>-------------------------------</CM>\n`;
+    });
+    console.log("productList-->", productList.join(""));
+    BLEPrinter.printText(
+      `<C><CM>Orion</CM>\</C>\n<C> </C>\n<M>Store Code - ${
+        data?.store_code
+      }</M>\n<M>Order Id - 12345</M>\n<M>SI Number - ${
+        data?.sale_invoice_number
+      }</M>\n<CM>--------------------------------</CM>${productList}<C><CM>Total Summary</CM></C>\n<M>Payment Type - ${
+        data?.price_type === "cash_type" ? "Cash" : "Charge"
+      }</M>\n<M>Sub Total  - ${
+        data?.subtotal_amount
+      }</M>\n<M>Total Discount  -  ${
+        data?.discount_amount
+      }</M>\n<M>Total Amount -  ${data?.final_amount}</M>\n`
+    );
   };
 
-console.log('currentPrinter', currentPrinter)
   return (
     <SafeAreaView style={styles.MainCntainer}>
       <Header Title={ScreenName} />
-      <ScrollView contentContainerStyle={styles.Container} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.Container}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.Title}>View order detail</Text>
         <View style={styles.DetailsView}>
           <View style={styles.Horizontal}>
@@ -100,18 +135,18 @@ console.log('currentPrinter', currentPrinter)
               </View>
               <View style={styles.CashView}>
                 <Text style={styles.PaymentTitleText}>Price</Text>
-                <View style={{flexDirection: 'row'}}>
-                <Text style={styles.PaymentDetailsText}>
-                  {data?.price_type === "cash_type"
-                    ? data?.cash_price
-                    : data?.charge_price}
-                </Text>
-                <AntDesign
-                  name={"close"}
-                  size={scale(13)}
-                  color={theme.GRAY}
-                  style={{ alignSelf: "center", left: scale(20) }}
-                />
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.PaymentDetailsText}>
+                    {data?.price_type === "cash_type"
+                      ? data?.cash_price
+                      : data?.charge_price}
+                  </Text>
+                  <AntDesign
+                    name={"close"}
+                    size={scale(13)}
+                    color={theme.GRAY}
+                    style={{ alignSelf: "center", left: scale(20) }}
+                  />
                 </View>
               </View>
               <View style={styles.ChargeView}>
@@ -148,7 +183,12 @@ console.log('currentPrinter', currentPrinter)
         {ScreenName == "Active Order Detail" ? (
           <View style={[styles.Horizontal, { marginVertical: scale(8) }]}>
             <Text style={styles.PaymentTitleText}>Ordered Response</Text>
-            <Pressable style={styles.BtnView} onPress={() => {connectPrinterStatus ? print() : setVisibleModal(true)}}>
+            <Pressable
+              style={styles.BtnView}
+              onPress={() => {
+                connectPrinterStatus ? print() : setVisibleModal(true);
+              }}
+            >
               <Text style={styles.btnText}>Print Response</Text>
             </Pressable>
           </View>
@@ -162,18 +202,25 @@ console.log('currentPrinter', currentPrinter)
         <View style={styles.modalContainer}>
           <View style={styles.LogoutModalStyle}>
             <Text style={styles.statusText}>Select Printer</Text>
-            {printers.length > 0 ?
+            {printers.length > 0 ? (
               printers?.map((printer) => (
                 <Pressable onPress={() => connectPrinter(printer)}>
-                  <Text style={styles.btnText}>{`Device Name: ${printer.device_name}`}</Text>
+                  <Text
+                    style={styles.btnText}
+                  >{`Device Name: ${printer.device_name}`}</Text>
                 </Pressable>
               ))
-            :
-            <Text style={styles.btnText} onPress={() => setVisibleModal(false)}>Please Enable Bluetooth</Text>
-            }
+            ) : (
+              <Text
+                style={styles.btnText}
+                onPress={() => setVisibleModal(false)}
+              >
+                Please Enable Bluetooth
+              </Text>
+            )}
           </View>
         </View>
-      </Modal> 
+      </Modal>
     </SafeAreaView>
   );
 };
