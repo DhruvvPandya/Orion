@@ -31,7 +31,7 @@ export const postApicallToken = async (url, payload, success) => {
       },
     })
     .then((res) => {
-      console.log('success', res)
+      console.log('success postApicallToken', res)
       if (success) {
         success(res.data);
       }

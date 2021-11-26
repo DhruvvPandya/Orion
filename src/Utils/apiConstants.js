@@ -9,7 +9,8 @@ const ApiConstants = {
   ORDER_LIST: "allorders",
   USER: 'auth/user',
   LOGOUT: 'auth/logout',
-  UPDATE_PROFILEPIC: 'auth/update_profile_pic'
+  UPDATE_PROFILEPIC: 'auth/update_profile_pic',
+  UPDATE_PASSWORD: 'auth/update_password',
 };
 
 export default ApiConstants;

@@ -22,8 +22,7 @@ const styles = StyleSheet.create({
     fontSize: scale(16),
     color: theme.BLACK,
     lineHeight: scale(16),
-    padding: 0,
-    alignSelf: 'center'
+    padding: 0
   },
   Line: {
     height: scale(1),
