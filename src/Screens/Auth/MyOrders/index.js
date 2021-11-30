@@ -19,7 +19,7 @@ const MyOrders = ({ navigation }) => {
   };
 
   const getOrderList = () => {
-    console.log('Selected Tab',tabNo)
+    console.log('Selected Tab', tabNo)
     setLoading(true);
     Api.getApicall(
       ApiConstants.BASE_URL + ApiConstants.ORDER_LIST + '?' + 'status' + '=' + tabNo,
@@ -30,20 +30,20 @@ const MyOrders = ({ navigation }) => {
     getOrderList()
   }, [tabNo]);
 
-  console.log('orderList',orderList && orderList)
+  console.log('orderList', orderList && orderList)
   return (
     <SafeAreaView style={styles.MainCntainer}>
       <Loader loading={loading} />
       <Header Title={'My Orders'} />
       <TopTabBar setTabNo={setTabNo} />
-{  orderList?.length > 0 ?    <ScrollView style={styles.Container} showsVerticalScrollIndicator={false}>
-      {orderList?.map((data) => (
-            <Ordercard data={data} onPress={() => navigation.navigate('OrderDetails', { ScreenName: 'Order Details', data : data })} />
-          ))}
+      {orderList?.length > 0 ? <ScrollView style={styles.Container} showsVerticalScrollIndicator={false}>
+        {orderList?.map((data) => (
+          <Ordercard data={data} onPress={() => navigation.navigate('OrderDetails', { ScreenName: 'Order Details', data: data })} />
+        ))}
       </ScrollView> :
-      <View style={styles.nullContainer}>
-      <Text style={styles.ModalText}>No orders available</Text>
-      </View>
+        <View style={styles.nullContainer}>
+          <Text style={styles.ModalText}>No orders available</Text>
+        </View>
       }
     </SafeAreaView>
   );

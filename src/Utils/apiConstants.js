@@ -11,6 +11,8 @@ const ApiConstants = {
   LOGOUT: 'auth/logout',
   UPDATE_PROFILEPIC: 'auth/update_profile_pic',
   UPDATE_PASSWORD: 'auth/update_password',
+  CREATE_ORDER: 'createorder',
+  ALL_CATEGORIES: 'allcategories'
 };
 
 export default ApiConstants;

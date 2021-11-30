@@ -20,7 +20,8 @@ import { request, PERMISSIONS } from "react-native-permissions";
 const OrderDetails = ({ route }) => {
   const ScreenName = route.params?.ScreenName;
   const data = route.params?.data;
-  console.log("data", data);
+  const tabNo = route.params?.tabNo;
+  console.log("tabNo====>", tabNo);
   const [printers, setPrinters] = useState([]);
   const [currentPrinter, setCurrentPrinter] = useState();
   const [visibleModal, setVisibleModal] = useState(false);
@@ -180,7 +181,7 @@ const OrderDetails = ({ route }) => {
         <View style={styles.TotalContainer}>
           <Text style={styles.BTNtext}>{data?.final_amount}</Text>
         </View>
-        {ScreenName == "Active Order Detail" ? (
+        {data?.status == "Approved" ? (
           <View style={[styles.Horizontal, { marginVertical: scale(8) }]}>
             <Text style={styles.PaymentTitleText}>Ordered Response</Text>
             <Pressable
@@ -202,6 +203,7 @@ const OrderDetails = ({ route }) => {
         <View style={styles.modalContainer}>
           <View style={styles.LogoutModalStyle}>
             <Text style={styles.statusText}>Select Printer</Text>
+            <ScrollView>
             {printers.length > 0 ? (
               printers?.map((printer) => (
                 <Pressable onPress={() => connectPrinter(printer)}>
@@ -218,6 +220,7 @@ const OrderDetails = ({ route }) => {
                 Please Enable Bluetooth
               </Text>
             )}
+                   </ScrollView>
           </View>
         </View>
       </Modal>

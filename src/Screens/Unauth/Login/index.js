@@ -14,6 +14,8 @@ import Loader from "src/Components/Loader";
 
 export const LOGIN_KEY = "LoginToken";
 export const SIGN_IN = "SignIn";
+export const USER_INFO = "UserInfo";
+export const USER_PERMISSION = "UserPermission";
 
 const Login = ({ navigation }) => {
   const [hidePass, setHidePass] = useState(true);
@@ -24,6 +26,8 @@ const Login = ({ navigation }) => {
 
   const onLoginSuccess = async (data) => {
     await setSessionData(LOGIN_KEY, data?.data?.token);
+    await setSessionData(USER_INFO, data?.data?.userinfo?.user_store_code);
+    await setSessionData(USER_PERMISSION, data?.data?.user_permission);
     isSignIn && await setSessionData(SIGN_IN, "isSignIn");
     setLoading(false)
     data.data.token && navigation.navigate("TabNavigator");
