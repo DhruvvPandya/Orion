@@ -16,6 +16,8 @@ import { scale } from "react-native-size-matters";
 import moment from "moment";
 import { BLEPrinter } from "react-native-thermal-receipt-printer";
 import { request, PERMISSIONS } from "react-native-permissions";
+import * as Api from "src/Utils/Api";
+import ApiConstants from "src/Utils/apiConstants";
 
 const OrderDetails = ({ route }) => {
   const ScreenName = route.params?.ScreenName;
@@ -51,6 +53,14 @@ const OrderDetails = ({ route }) => {
     );
   };
 
+  const onPrintCall = () => {
+        Api.postApicallToken(
+          ApiConstants.BASE_URL + ApiConstants.FULLFILLED_ORDER + '?' + 'id=' + data?.id,
+          null,
+          null
+        );
+  };
+
   const print = () => {
     let productList = data?.items?.map((data) => {
       return `\n<C><CM>${data?.variant_name}</CM></C>\n<M>Qty - ${
@@ -79,6 +89,7 @@ const OrderDetails = ({ route }) => {
         data?.discount_amount
       }</M>\n<M>Total Amount -  ${data?.final_amount}</M>\n`
     );
+    onPrintCall()
   };
 
   return (
