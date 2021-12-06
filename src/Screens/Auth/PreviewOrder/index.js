@@ -10,7 +10,7 @@ import Feather from "react-native-vector-icons/Feather";
 import theme from "../../../Utils/theme";
 
 const PreviewOrder = ({ route, navigation }) => {
-  const data = route.params?.params;
+  const data = route.params?.dataParams;
   return (
     <SafeAreaView style={styles.MainCntainer}>
       <Header Title={"Preview Order Request"} />

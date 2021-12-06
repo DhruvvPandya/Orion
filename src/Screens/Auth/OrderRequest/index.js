@@ -148,7 +148,21 @@ const OrderRequest = ({ navigation }) => {
     //   uri: photo.path,
     //   name: 'photo.jpeg',
     // });
-    const params = {
+    const params = new FormData();
+    params.append('sale_invoice_number', invoiceNo.toString());
+    params.append('store_code', storeCode.toString());
+    params.append('price_type', isPaymentMode == 'cash' ? "cash_type" : "charge_price");
+    params.append('sale_invoice_image', {
+      type: photo.mime,
+      uri: photo.path,
+      name: 'sale_invoice_image.jpeg',
+    });
+    params.append('subtotal_amount',subAmount.toString());
+    params.append('extra_charge_amount', "0");
+    params.append('discount_amount', isPaymentMode == 'cash' ? (subAmount - finalAmount).toString() : "0");
+    params.append('final_amount',  finalAmount.toString());
+    params.append('items', getValues(`items`));
+    const dataParams = {
       sale_invoice_number: invoiceNo,
       store_code: storeCode,
       sale_invoice_image: "",
@@ -161,9 +175,9 @@ const OrderRequest = ({ navigation }) => {
 
     };
     Api.postApicallToken(
-      ApiConstants.BASE_URL + ApiConstants.UPDATE_PASSWORD,
+      ApiConstants.BASE_URL + ApiConstants.CREATE_ORDER,
       params,
-      navigation.navigate('PreviewOrder',{ params })
+      navigation.navigate('PreviewOrder',{ dataParams })
     )
   };
   return (
