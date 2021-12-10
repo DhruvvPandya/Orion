@@ -26,7 +26,7 @@ const MyProfile = () => {
   };
 
   const onUserInfo = () => {
-    setLoading(true)
+    // setLoading(true)
     Api.getApicall(
       ApiConstants.BASE_URL + ApiConstants.USER,
       onUserInfoSuccess

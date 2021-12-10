@@ -55,10 +55,10 @@ const PreviewOrder = ({ route, navigation }) => {
           {data?.items?.map((item) => (
             <View style={styles.PCHorizontailView}>
               <View style={styles.PCCategoryView}>
-                <Text style={styles.PCDetailsText}>{item?.category_sku}</Text>
+                <Text style={styles.PCDetailsText}>{item?.category_name}</Text>
               </View>
               <View style={styles.PCVarientView}>
-                <Text style={styles.PCDetailsText}>{item?.variant_sku}</Text>
+                <Text style={styles.PCDetailsText}>{item?.variant_name}</Text>
               </View>
               <View style={styles.PCCashView}>
                 <Text style={styles.PCDetailsText}>{item?.cash_price}</Text>

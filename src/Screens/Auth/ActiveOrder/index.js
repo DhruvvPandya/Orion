@@ -17,7 +17,7 @@ const ActiveOrder = ({navigation}) => {
   const DATA = ["Select", "date", "week", "month", "year"];
   const [loading, setLoading] = useState(false);
   const [orderList, setOrderList] = useState();
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("date");
   const onOrderSucess = async (data) => {
     setOrderList(data?.data);
     setLoading(false);

@@ -43,6 +43,7 @@ export const postApicallToken = async (url, payload, success) => {
 }
 
 export const getApicall = async (url, success) => {
+  console.log('url', url)
   const token = await getSessionData(LOGIN_KEY);
   axios
     .get(url, {

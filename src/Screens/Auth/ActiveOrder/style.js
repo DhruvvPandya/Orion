@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   },
   Container: {
     paddingHorizontal: scale(16),
+    paddingBottom: 120, 
   },
   Horizontal: {
     flexDirection: 'row',

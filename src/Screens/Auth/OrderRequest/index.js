@@ -23,6 +23,7 @@ import * as Api from "src/Utils/Api";
 import ApiConstants from "src/Utils/apiConstants";
 const actionSheetRef = createRef();
 import { getSessionData } from "src/Utils/asyncStorage";
+import Loader from "src/Components/Loader";
 
 const OrderRequest = ({ navigation }) => {
   const [isPaymentMode, setPaymentMode] = useState("cash");
@@ -39,6 +40,8 @@ const OrderRequest = ({ navigation }) => {
   const [qantityRefresh, setQuantityRefresh] = useState(false);
   const [finalAmount, setFinalAmount] = useState();
   const [subAmount, setSubAmount] = useState();
+  const [itemStock, setItemStock] = useState();
+  const [loading, setLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -49,7 +52,8 @@ const OrderRequest = ({ navigation }) => {
     defaultValues: {
       items: [
         {
-          category_sku: "",
+          category_name: "",
+          variant_name: "",
           variant_sku: "",
           qty: "0",
           charge_price: "",
@@ -81,12 +85,12 @@ const OrderRequest = ({ navigation }) => {
   }, []);
 
   console.log("categories", categories);
-  const categoryData = categories?.map((value) => value.name);
+  let categoryData = categories?.map((value) => value.name);
 
   useEffect(() => {
-    console.log("value==>", getValues(`items.${indexx}.category_sku`));
+    console.log("value==>", getValues(`items.${indexx}.category_name`));
     let variantList = categories?.filter(function (el) {
-      return el.name == getValues(`items.${indexx}.category_sku`);
+      return el.name == getValues(`items.${indexx}.category_name`);
     });
     //let variantListValue = variantList?.[0].variants?.map(value => `${value.name} ${'|'} ${value.cash_price} ${'|'} ${value.charge_price}`);
     let variantListValue = variantList?.[0].variants?.map(
@@ -97,14 +101,16 @@ const OrderRequest = ({ navigation }) => {
 
   useEffect(() => {
     let variantList = categories?.filter(function (el) {
-      return el.name == getValues(`items.${indexx}.category_sku`);
+      return el.name == getValues(`items.${indexx}.category_name`);
     });
     console.log("variantList", variantList?.[0].variants);
     let array = variantList?.[0].variants.filter(function (el) {
       return el.name == variantData;
     });
     setRefresh(!refresh),
-      setValue(`items.${indexx}.charge_price`, array?.[0].charge_price);
+    setItemStock(array?.[0].stock)
+    setValue(`items.${indexx}.charge_price`, array?.[0].charge_price);
+    setValue(`items.${indexx}.variant_sku`, array?.[0].sku);
     setValue(`items.${indexx}.cash_price`, array?.[0].cash_price);
   }, [variantData && variantData.length]);
 
@@ -123,7 +129,7 @@ const OrderRequest = ({ navigation }) => {
 
   useEffect(() => {}, [
     getValues(`items.${indexx}.cash_price`) &&
-      getValues(`items.${indexx}.cash_price`),
+    getValues(`items.${indexx}.cash_price`),
   ]);
 
   const fromGallery = () => {
@@ -153,10 +159,11 @@ const OrderRequest = ({ navigation }) => {
   };
 
   const onSubmitOrder = (data) => {
-    console.log("onSubmit", data);
+    console.log("onSubmit", data, getValues(`items`));
     const str = JSON.stringify(getValues(`items`));
     var finalData = str?.replace(/\\/g, "");
     console.log("finalData", finalData);
+    setLoading(true)
     const params = new FormData();
     params.append("sale_invoice_number", invoiceNo.toString());
     params.append("store_code", storeCode.toString());
@@ -192,11 +199,12 @@ const OrderRequest = ({ navigation }) => {
     Api.postApicallToken(
       ApiConstants.BASE_URL + ApiConstants.CREATE_ORDER,
       params,
-      navigation.navigate("PreviewOrder", { dataParams })
+     (    setLoading(false) , navigation.navigate("PreviewOrder", { dataParams }))
     );
   };
   return (
     <SafeAreaView style={styles.MainCntainer}>
+      <Loader loading={loading} />
       <Header Title={"Order Request"} />
       <ScrollView
         contentContainerStyle={styles.Container}
@@ -237,7 +245,7 @@ const OrderRequest = ({ navigation }) => {
                     <>
                       <Controller
                         control={control}
-                        name={`items.${index}.category_sku`}
+                        name={`items.${index}.category_name`}
                         render={({ field: { onChange } }) => (
                           <View style={styles.DorpdownView}>
                             <ModalDropdown
@@ -249,8 +257,8 @@ const OrderRequest = ({ navigation }) => {
                               dropdownStyle={{ height: "20%", width: "86%" }}
                               onSelect={(value) => {
                                 onChange(categoryData[value]),
-                                  setValueData(categoryData[value]),
-                                  setIndexx(index);
+                                setValueData(categoryData[value]),
+                                setIndexx(index);
                               }}
                               options={categoryData}
                             />
@@ -277,12 +285,12 @@ const OrderRequest = ({ navigation }) => {
                       <Text style={styles.CardTitleText}>Charge</Text>
                     </View>
                   </View>
-                  {product?.length > 0 && (
+                  {product?.length > 0 && getValues(`items.${index}.category_name`) !== ''  && (
                     <>
                       <Controller
                         control={control}
-                        name={`items.${index}.variant_sku`}
-                        initialValues={`items.${index}.variant_sku`}
+                        name={`items.${index}.variant_name`}
+                        initialValues={`items.${index}.variant_name`}
                         render={({ field: { onChange } }) => (
                           <View style={styles.DorpdownView}>
                             <ModalDropdown
@@ -294,7 +302,7 @@ const OrderRequest = ({ navigation }) => {
                               showsVerticalScrollIndicator={false}
                               onSelect={(value) => {
                                 onChange(product[value]),
-                                  setVariantData(product[value]);
+                                setVariantData(product[value]);
                               }}
                               dropdownStyle={{ width: "86%" }}
                               options={product}
@@ -334,7 +342,7 @@ const OrderRequest = ({ navigation }) => {
                           color={theme.GRAY}
                           onPress={() => {
                             getValues(`items.${index}.qty`) > 0 &&
-                              onChange(getValues(`items.${index}.qty`) - 1);
+                            onChange(getValues(`items.${index}.qty`) - 1);
                             setQuantityRefresh(!qantityRefresh);
                           }}
                         />
@@ -346,8 +354,8 @@ const OrderRequest = ({ navigation }) => {
                           size={scale(25)}
                           color={theme.DARK_BLUE}
                           onPress={() => {
-                            onChange(
-                              parseInt(getValues(`items.${index}.qty`) + 1)
+                            getValues(`items.${index}.qty`) < itemStock && onChange(
+                              parseInt(getValues(`items.${index}.qty`) + 1) 
                             );
                             setQuantityRefresh(!qantityRefresh);
                           }}
@@ -363,13 +371,15 @@ const OrderRequest = ({ navigation }) => {
         <Pressable
           style={styles.AddContainer}
           onPress={() =>
-            append({
-              category_sku: "",
+           { append({
+              category_name: "",
               variant_sku: "",
+              variant_name:'',
               qty: "0",
               charge_price: "",
               cash_price: "",
             })
+          }
           }
         >
           <Text style={styles.Addtext}>Add New Category/Type</Text>
