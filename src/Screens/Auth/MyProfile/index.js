@@ -48,7 +48,8 @@ const MyProfile = () => {
         Api.postApicallToken(
           ApiConstants.BASE_URL + ApiConstants.UPDATE_PROFILEPIC,
           data,
-          onProfilePicSuccess
+          onProfilePicSuccess,
+          setLoading(false)
         );
   };
 

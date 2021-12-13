@@ -24,11 +24,12 @@ import ApiConstants from "src/Utils/apiConstants";
 const actionSheetRef = createRef();
 import { getSessionData } from "src/Utils/asyncStorage";
 import Loader from "src/Components/Loader";
+import Snackbar from 'react-native-snackbar';
 
 const OrderRequest = ({ navigation }) => {
   const [isPaymentMode, setPaymentMode] = useState("cash");
-  const [photo, setPhoto] = useState();
-  const [invoiceNo, setInvoiceNo] = useState();
+  const [photo, setPhoto] = useState('');
+  const [invoiceNo, setInvoiceNo] = useState('');
   const [storeCode, setStoreCode] = useState();
   const [categories, setCategories] = useState();
   const [indexx, setIndexx] = useState();
@@ -42,6 +43,7 @@ const OrderRequest = ({ navigation }) => {
   const [subAmount, setSubAmount] = useState();
   const [itemStock, setItemStock] = useState();
   const [loading, setLoading] = useState(false);
+  const [snackError, setSnackError] = useState();
   const {
     control,
     handleSubmit,
@@ -67,6 +69,7 @@ const OrderRequest = ({ navigation }) => {
     name: "items",
   });
 
+  console.log('errors', errors)
   const onCategoriesSucess = async (data) => {
     setCategories(data?.data);
   };
@@ -88,7 +91,20 @@ const OrderRequest = ({ navigation }) => {
   let categoryData = categories?.map((value) => value.name);
 
   useEffect(() => {
+    snackError && Snackbar.show({
+      text: snackError && snackError,
+      duration: Snackbar.LENGTH_SHORT,
+    }) 
+    setInvoiceNo('')
+  }, [snackError && snackError?.length]);
+
+
+  useEffect(() => {
     console.log("value==>", getValues(`items.${indexx}.category_name`));
+      setValue(`items.${indexx}.charge_price`, '');
+    setValue(`items.${indexx}.variant_sku`, '');
+    setValue(`items.${indexx}.variant_name`, '');
+    setValue(`items.${indexx}.cash_price`,'');
     let variantList = categories?.filter(function (el) {
       return el.name == getValues(`items.${indexx}.category_name`);
     });
@@ -127,7 +143,7 @@ const OrderRequest = ({ navigation }) => {
     setSubAmount(subAmount.reduce((a, b) => a + b, 0));
   }, [qantityRefresh, isPaymentMode]);
 
-  useEffect(() => {}, [
+  useEffect(() => { }, [
     getValues(`items.${indexx}.cash_price`) &&
     getValues(`items.${indexx}.cash_price`),
   ]);
@@ -158,49 +174,81 @@ const OrderRequest = ({ navigation }) => {
       });
   };
 
+  const onOrderSusscess = (data) => {
+    setLoading(false)
+    if(data?.message !== ""){
+      setSnackError(data?.message)
+    }else{
+      const dataParams = {
+        sale_invoice_number: invoiceNo,
+        store_code: storeCode,
+        sale_invoice_image: "",
+        price_type: isPaymentMode == "cash" ? "cash_type" : "charge_price",
+        subtotal_amount: subAmount,
+        extra_charge_amount: "",
+        discount_amount: isPaymentMode == "cash" ? subAmount - finalAmount : "0",
+        final_amount: finalAmount,
+        items: getValues(`items`),
+      };
+    navigation.navigate("PreviewOrder", { dataParams })
+    }
+  };
+
+  const onOrderError = (err) => {
+    console.log('err==>',err)
+    setLoading(false)
+    setSnackError('Something went wrong')
+  };
   const onSubmitOrder = (data) => {
-    console.log("onSubmit", data, getValues(`items`));
-    const str = JSON.stringify(getValues(`items`));
-    var finalData = str?.replace(/\\/g, "");
-    console.log("finalData", finalData);
-    setLoading(true)
-    const params = new FormData();
-    params.append("sale_invoice_number", invoiceNo.toString());
-    params.append("store_code", storeCode.toString());
-    params.append(
-      "price_type",
-      isPaymentMode == "cash" ? "cash_type" : "charge_price"
-    );
-    params.append("sale_invoice_image", {
-      type: photo.mime,
-      uri: photo.path,
-      name: "sale_invoice_image.jpeg",
-    });
-    params.append("subtotal_amount", subAmount.toString());
-    params.append("extra_charge_amount", "0");
-    params.append(
-      "discount_amount",
-      isPaymentMode == "cash" ? (subAmount - finalAmount).toString() : "0"
-    );
-    params.append("final_amount", finalAmount.toString());
-    params.append("items", finalData);
-    
-    const dataParams = {
-      sale_invoice_number: invoiceNo,
-      store_code: storeCode,
-      sale_invoice_image: "",
-      price_type: isPaymentMode == "cash" ? "cash_type" : "charge_price",
-      subtotal_amount: subAmount,
-      extra_charge_amount: "",
-      discount_amount: isPaymentMode == "cash" ? subAmount - finalAmount : "0",
-      final_amount: finalAmount,
-      items: getValues(`items`),
-    };
-    Api.postApicallToken(
-      ApiConstants.BASE_URL + ApiConstants.CREATE_ORDER,
-      params,
-     (    setLoading(false) , navigation.navigate("PreviewOrder", { dataParams }))
-    );
+    console.log("onSubmit", data, getValues(`items`), invoiceNo);
+
+    if (invoiceNo.length === 0) {
+      Snackbar.show({
+        text: 'Please enter sales invoice number',
+        duration: Snackbar.LENGTH_SHORT,
+      })
+    }
+    else if (photo.length === 0) {
+      Snackbar.show({
+        text: 'Please upload receipt image',
+        duration: Snackbar.LENGTH_SHORT,
+      })
+    }
+    else {
+      const str = JSON.stringify(getValues(`items`));
+      var finalData = str?.replace(/\\/g, "");
+      console.log("finalData", finalData);
+      setLoading(true)
+      const params = new FormData();
+      params.append("sale_invoice_number", invoiceNo.toString());
+      params.append("store_code", storeCode.toString());
+      params.append(
+        "price_type",
+        isPaymentMode == "cash" ? "cash_type" : "charge_price"
+      );
+      params.append("sale_invoice_image", {
+        type: photo.mime,
+        uri: photo.path,
+        name: "sale_invoice_image.jpeg",
+      });
+      params.append("subtotal_amount", subAmount.toString());
+      params.append("extra_charge_amount", "0");
+      params.append(
+        "discount_amount",
+        isPaymentMode == "cash" ? (subAmount - finalAmount).toString() : "0"
+      );
+      params.append("final_amount", finalAmount.toString());
+      params.append("items", finalData);
+
+ 
+      Api.postApicallToken(
+        ApiConstants.BASE_URL + ApiConstants.CREATE_ORDER,
+        params,
+      onOrderSusscess,
+       onOrderError
+      );
+    }
+
   };
   return (
     <SafeAreaView style={styles.MainCntainer}>
@@ -227,7 +275,7 @@ const OrderRequest = ({ navigation }) => {
         <Text style={styles.Title}>Order Details</Text>
         {fields.map((element, index) => {
           return (
-            <View key={index.toString()}>
+            <View key={index?.toString()}>
               <View style={styles.ProductCard}>
                 <View style={styles.HeaderContainer}>
                   <Text style={styles.CardTitleText}>Category/Type</Text>
@@ -256,9 +304,15 @@ const OrderRequest = ({ navigation }) => {
                               showsVerticalScrollIndicator={false}
                               dropdownStyle={{ height: "20%", width: "86%" }}
                               onSelect={(value) => {
+                                console.log('fields', fields)
+                                // let fieldss = fields?.map((value) => value.category_name);
+                                // var intersection = categoryData.filter(function(e) {
+                                //   return fieldss.indexOf(e) > -1;
+                                // });
+                                // console.log('intersection', intersection)
                                 onChange(categoryData[value]),
-                                setValueData(categoryData[value]),
-                                setIndexx(index);
+                                  setValueData(categoryData[value]),
+                                  setIndexx(index);
                               }}
                               options={categoryData}
                             />
@@ -285,7 +339,7 @@ const OrderRequest = ({ navigation }) => {
                       <Text style={styles.CardTitleText}>Charge</Text>
                     </View>
                   </View>
-                  {product?.length > 0 && getValues(`items.${index}.category_name`) !== ''  && (
+                  {product?.length > 0 && getValues(`items.${index}.category_name`) !== '' && (
                     <>
                       <Controller
                         control={control}
@@ -303,6 +357,7 @@ const OrderRequest = ({ navigation }) => {
                               onSelect={(value) => {
                                 onChange(product[value]),
                                 setVariantData(product[value]);
+                                setValue(`items.${index}.qty`, 0);
                               }}
                               dropdownStyle={{ width: "86%" }}
                               options={product}
@@ -354,9 +409,15 @@ const OrderRequest = ({ navigation }) => {
                           size={scale(25)}
                           color={theme.DARK_BLUE}
                           onPress={() => {
-                            getValues(`items.${index}.qty`) < itemStock && onChange(
-                              parseInt(getValues(`items.${index}.qty`) + 1) 
-                            );
+                            getValues(`items.${index}.variant_name`) === '' ? Snackbar.show({
+                              text: 'You cannot select variant',
+                              duration: Snackbar.LENGTH_SHORT,
+                            })  : getValues(`items.${index}.qty`) < itemStock ? onChange(
+                              parseInt(getValues(`items.${index}.qty`) + 1)
+                            ) : Snackbar.show({
+                              text: 'You cannot add more than this as stock is not available',
+                              duration: Snackbar.LENGTH_SHORT,
+                            });
                             setQuantityRefresh(!qantityRefresh);
                           }}
                         />
@@ -370,15 +431,15 @@ const OrderRequest = ({ navigation }) => {
         })}
         <Pressable
           style={styles.AddContainer}
-          onPress={() =>
-           { append({
+          onPress={() => {
+            append({
               category_name: "",
               variant_sku: "",
-              variant_name:'',
+              variant_name: '',
               qty: "0",
               charge_price: "",
               cash_price: "",
-            })
+            });
           }
           }
         >

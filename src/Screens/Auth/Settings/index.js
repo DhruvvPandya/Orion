@@ -33,7 +33,8 @@ const Settings = () => {
     Api.postApicallToken(
       ApiConstants.BASE_URL+ApiConstants.UPDATE_PASSWORD+'?old_password=' + `${oldPassword}`+'&new_password='+`${newPassword}`,
       null,
-      onUpdatePasswordSucess
+      onUpdatePasswordSucess(),
+      null
     )
     ) : Snackbar.show({
       text: newPassword == reNewpassword ? 'Password filed can not be null' :  'Re-enter Password Does Not Match' ,

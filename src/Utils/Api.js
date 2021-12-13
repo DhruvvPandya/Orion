@@ -21,7 +21,7 @@ export const postApicall = (url, payload, success) => {
     });
 };
 
-export const postApicallToken = async (url, payload, success) => {
+export const postApicallToken = async (url, payload, success, error) => {
   console.log('payload', url, payload)
   const token = await getSessionData(LOGIN_KEY);
   axios
@@ -39,6 +39,9 @@ export const postApicallToken = async (url, payload, success) => {
     })
     .catch((err) => {
       console.log('err',err);
+      if(err){
+        error()
+      }
     });
 }
 

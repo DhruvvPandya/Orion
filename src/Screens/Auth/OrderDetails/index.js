@@ -57,6 +57,7 @@ const OrderDetails = ({ route }) => {
         Api.postApicallToken(
           ApiConstants.BASE_URL + ApiConstants.FULLFILLED_ORDER + '?' + 'id=' + data?.id,
           null,
+          null,
           null
         );
   };
