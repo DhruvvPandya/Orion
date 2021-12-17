@@ -13,7 +13,8 @@ const ApiConstants = {
   UPDATE_PASSWORD: 'auth/update_password',
   CREATE_ORDER: 'createorder',
   ALL_CATEGORIES: 'allcategories',
-  FULLFILLED_ORDER: 'fullfilled_order'
+  FULLFILLED_ORDER: 'fullfilled_order',
+  REAUTHORIZE_ORDER: 'reauthorize_order'
 };
 
 export default ApiConstants;

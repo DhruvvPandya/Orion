@@ -23,11 +23,13 @@ const OrderDetails = ({ route }) => {
   const ScreenName = route.params?.ScreenName;
   const data = route.params?.data;
   const tabNo = route.params?.tabNo;
-  console.log("tabNo====>", tabNo);
+  console.log("data====>", data);
   const [printers, setPrinters] = useState([]);
   const [currentPrinter, setCurrentPrinter] = useState();
   const [visibleModal, setVisibleModal] = useState(false);
   const [connectPrinterStatus, setConnectPrinterStatus] = useState(false);
+  const [rerequestOrder, setRerequestOrder] = useState(false);
+  const [printView, setPrintView] = useState(false);
 
   useEffect(() => {
     if (Platform.OS === "ios") {
@@ -49,7 +51,7 @@ const OrderDetails = ({ route }) => {
       setCurrentPrinter,
       setConnectPrinterStatus(true),
       setVisibleModal(false),
-      (error) => console.warn(error)
+      (error) => (console.warn('error',error), reauthorizeOrder(), setRerequestOrder(true))
     );
   };
 
@@ -57,10 +59,19 @@ const OrderDetails = ({ route }) => {
         Api.postApicallToken(
           ApiConstants.BASE_URL + ApiConstants.FULLFILLED_ORDER + '?' + 'id=' + data?.id,
           null,
-          null,
+          setPrintView(true),
           null
         );
   };
+
+  const reauthorizeOrder = () => {
+    Api.postApicallToken(
+      ApiConstants.BASE_URL + ApiConstants.REAUTHORIZE_ORDER + '?' + 'id=' + data?.id,
+      null,
+      setPrintView(true),
+      null
+    );
+};
 
   const print = () => {
     let productList = data?.items?.map((data) => {
@@ -80,7 +91,9 @@ const OrderDetails = ({ route }) => {
     BLEPrinter.printText(
       `<C><CM>Orion</CM>\</C>\n<C> </C>\n<M>Store Code - ${
         data?.store_code
-      }</M>\n<M>Order Id - 12345</M>\n<M>SI Number - ${
+      }</M>\n<M>Order Id - ${
+        data?.id
+      }</M>\n<M>SI Number - ${
         data?.sale_invoice_number
       }</M>\n<CM>--------------------------------</CM>${productList}<C><CM>Total Summary</CM></C>\n<M>Payment Type - ${
         data?.price_type === "cash_type" ? "Cash" : "Charge"
@@ -193,7 +206,7 @@ const OrderDetails = ({ route }) => {
         <View style={styles.TotalContainer}>
           <Text style={styles.BTNtext}>{data?.final_amount}</Text>
         </View>
-        {data?.status == "Approved" ? (
+        {true && !printView ? (
           <View style={[styles.Horizontal, { marginVertical: scale(8) }]}>
             <Text style={styles.PaymentTitleText}>Ordered Response</Text>
             <Pressable
@@ -202,7 +215,7 @@ const OrderDetails = ({ route }) => {
                 connectPrinterStatus ? print() : setVisibleModal(true);
               }}
             >
-              <Text style={styles.btnText}>Print Response</Text>
+              <Text style={styles.btnText}>{rerequestOrder ? 'Re-request Order' : 'Print Response'}</Text>
             </Pressable>
           </View>
         ) : (

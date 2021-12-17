@@ -27,10 +27,13 @@ const Login = ({ navigation }) => {
   const onLoginSuccess = async (data) => {
     await setSessionData(LOGIN_KEY, data?.data?.token);
     await setSessionData(USER_INFO, data?.data?.userinfo?.user_store_code);
-    await setSessionData(USER_PERMISSION, data?.data?.user_permission);
+    await setSessionData(USER_PERMISSION, JSON.stringify(data?.data?.user_permission) );
     isSignIn && await setSessionData(SIGN_IN, "isSignIn");
     setLoading(false)
-    data.data.token && navigation.navigate("TabNavigator");
+    data.data.token && data?.data?.user_permission?.login_in_app == '1' ?  navigation.navigate("TabNavigator"): Snackbar.show({
+      text: 'Do not have permisson to login',
+      duration: Snackbar.LENGTH_SHORT,
+    })
   };
 
   const onLoginSubmit = () => {

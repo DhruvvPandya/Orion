@@ -1,5 +1,5 @@
-import React from "react";
-import { Image, View } from 'react-native';
+import React,{useEffect, useState} from "react";
+import { Image } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { scale } from 'react-native-size-matters'
@@ -15,10 +15,10 @@ import OrderRequest from "src/Screens/Auth/OrderRequest";
 import ActiveOrder from "src/Screens/Auth/ActiveOrder";
 import theme from 'src/Utils/theme'
 import fonts from "src/Utils/fonts";
-import DrawerView from "src/Components/DrawerView";
 import DeviceInfo from 'react-native-device-info';
 import OrderDetails from "../Screens/Auth/OrderDetails";
 import PreviewOrder from "../Screens/Auth/PreviewOrder";
+import { getSessionData } from "src/Utils/asyncStorage";
 
 const hasNotch = DeviceInfo.hasNotch();
 
@@ -29,7 +29,13 @@ const Navigation = () => {
   const ActiveOrderStack = createNativeStackNavigator();
 
   const Tab = createBottomTabNavigator();
+  const [permission, setPermission] = useState("");
+  // useEffect(async () => {
+  //   let getuserPermission =  await getSessionData('UserPermission');
+  //   setPermission(JSON.parse(getuserPermission))
+  // }, []);
 
+  // console.log(' permission===tab',  permission)
   function DashBoardNavigator(){
     return(
       <DashBoardStack.Navigator
@@ -135,7 +141,8 @@ const Navigation = () => {
               )
             }
           }} />
-        <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
+ {/* {    permission?.create_order_from_app === '1' &&    */}
+    <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
           options={{
             tabBarLabel: 'Order Request',
             tabBarIcon: ({ focused }) => {
@@ -150,6 +157,7 @@ const Navigation = () => {
               )
             }
           }} />
+          {/* } */}
         <Tab.Screen name={'ActiveOrderNavigator'} component={ActiveOrderNavigator}
           options={{
             tabBarLabel: 'Request Response',
