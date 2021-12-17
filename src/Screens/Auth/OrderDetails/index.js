@@ -211,8 +211,7 @@ const OrderDetails = ({ route }) => {
         <View style={styles.TotalContainer}>
           <Text style={styles.BTNtext}>{data?.final_amount}</Text>
         </View>
-        {console.log('==>', printView)}
-        {true && !printView ? (
+        {data?.status == "Approved" && !printView ? (
           <View style={[styles.Horizontal, { marginVertical: scale(8) }]}>
             <Text style={styles.PaymentTitleText}>Ordered Response</Text>
             <Pressable
