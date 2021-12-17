@@ -45,15 +45,20 @@ const OrderDetails = ({ route }) => {
     }
   }, [visibleModal]);
 
+
   const connectPrinter = (printer) => {
     //connect printer
     BLEPrinter.connectPrinter(printer.inner_mac_address).then(
       setCurrentPrinter,
       setConnectPrinterStatus(true),
       setVisibleModal(false),
-      (error) => (console.warn('error',error), reauthorizeOrder(), setRerequestOrder(true))
+    ).catch(
+      (error) => (console.warn('error',error), reauthorizeOrder())
     );
   };
+
+  useEffect(() => {
+  }, [rerequestOrder]);
 
   const onPrintCall = () => {
         Api.postApicallToken(
@@ -68,7 +73,7 @@ const OrderDetails = ({ route }) => {
     Api.postApicallToken(
       ApiConstants.BASE_URL + ApiConstants.REAUTHORIZE_ORDER + '?' + 'id=' + data?.id,
       null,
-      setPrintView(true),
+      setRerequestOrder(true),
       null
     );
 };
@@ -206,6 +211,7 @@ const OrderDetails = ({ route }) => {
         <View style={styles.TotalContainer}>
           <Text style={styles.BTNtext}>{data?.final_amount}</Text>
         </View>
+        {console.log('==>', printView)}
         {true && !printView ? (
           <View style={[styles.Horizontal, { marginVertical: scale(8) }]}>
             <Text style={styles.PaymentTitleText}>Ordered Response</Text>
