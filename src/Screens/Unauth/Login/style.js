@@ -2,20 +2,23 @@ import { StyleSheet } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import theme from "../../../Utils/theme";
 import fonts from "../../../Utils/fonts";
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 
+console.log("isTablet ",isTablet);
 const styles = StyleSheet.create({
   MainCntainer: {
     flex: 1,
     backgroundColor: theme.BACKGROUND,
     alignItems: "center",
-    paddingVertical: scale(70),
+    paddingVertical:isTablet?scale(45):scale(70),
   },
   Logo: {
-    height: scale(38),
-    width: scale(98),
+    height:isTablet?scale(30):scale(38),
+    width:isTablet?scale(80):scale(98),
   },
   textContainer: {
-    marginHorizontal: scale(10),
+    marginHorizontal:scale(10),
   },
   PwdView: {
     flexDirection: 'row',
@@ -24,22 +27,26 @@ const styles = StyleSheet.create({
   Title: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
-    fontSize: scale(20),
-    marginTop: verticalScale(45),
+    fontSize:isTablet?scale(15):scale(20),
+    marginTop:isTablet?verticalScale(40):verticalScale(45),
   },
   DetailsContainer: {
     backgroundColor: "rgba(0,0,0,0.3)",
     marginHorizontal: scale(16),
     width: "93%",
-    borderRadius: scale(15),
-    marginTop: scale(20),
-    paddingVertical: scale(33),
+    borderRadius: isTablet?scale(11):scale(15),
+    marginTop:isTablet?scale(17):scale(20),
+    paddingVertical:isTablet?scale(23):scale(33),
     paddingHorizontal: scale(20)
   },
   InputContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
+  msgIcon:{ height:38
+    ,width:45},
+    passIcon:{ height:45
+      ,width:40},
   PwdContainer: {
     flexDirection: "row",
     alignItems: 'center',
@@ -47,27 +54,27 @@ const styles = StyleSheet.create({
   },
   usernameTitle: {
     fontFamily: fonts.JosefinSans_Regular,
-    fontSize: scale(13),
+    fontSize:isTablet?scale(11):scale(13),
     color: theme.WHITE,
-    lineHeight: scale(13),
+    lineHeight:scale(13),
   },
   usernameDetails: {
     fontFamily: fonts.JosefinSans_Regular,
-    fontSize: scale(16),
+    fontSize:isTablet?scale(13):scale(16),
     color: theme.WHITE,
-    lineHeight: scale(16),
+    lineHeight:isTablet?scale(16):scale(16),
     padding: 0,
     alignSelf: 'center'
   },
   forgetPwdText: {
     fontFamily: fonts.JosefinSans_Regular,
-    fontSize: scale(16),
+    fontSize: isTablet?scale(13):scale(16),
     color: theme.YELLOW,
-    lineHeight: scale(16),
+    lineHeight: isTablet?scale(13):scale(16),
     padding: 0,
     textAlign: 'right',
     marginRight: scale(19),
-    marginBottom: scale(25),
+    marginBottom: isTablet?scale(17):scale(25),
   },
   Line: {
     height: scale(1),
@@ -83,16 +90,17 @@ const styles = StyleSheet.create({
   },
   BottomView: {
     backgroundColor: "rgba(0,0,0,0.3)",
-    marginTop: scale(10),
-    paddingVertical: scale(20),
-    borderRadius: scale(10),
+    marginTop:isTablet?scale(7):scale(10),
+    paddingVertical:isTablet?scale(12):scale(20),
+    // borderRadius: scale(10),
+    borderRadius: isTablet?scale(7):scale(10),
     width: "95%",
     paddingHorizontal: scale(25),
     flexDirection: "row",
     justifyContent: "space-between",
   },
   Container: {
-    marginBottom: scale(18),
+    marginBottom:isTablet?scale(17):scale(18),
     justifyContent: 'center',
   },
 });

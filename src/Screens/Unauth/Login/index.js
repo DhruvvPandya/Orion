@@ -11,13 +11,15 @@ import * as Api from "src/Utils/Api";
 import ApiConstants from "src/Utils/apiConstants";
 import { setSessionData } from "src/Utils/asyncStorage";
 import Loader from "src/Components/Loader";
-
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 export const LOGIN_KEY = "LoginToken";
 export const SIGN_IN = "SignIn";
 export const USER_INFO = "UserInfo";
 export const USER_PERMISSION = "UserPermission";
 
 const Login = ({ navigation }) => {
+
   const [hidePass, setHidePass] = useState(true);
   const [isSignIn, setisSignIn] = useState(true);
   const [username, setUsername] = useState("");
@@ -67,7 +69,7 @@ const Login = ({ navigation }) => {
       <View style={styles.DetailsContainer}>
         <View style={styles.Container}>
           <View style={styles.InputContainer}>
-            <Image source={require("../../../Assets/images/msg.png")} />
+            <Image source={require("../../../Assets/images/msg.png")} style={isTablet?styles.msgIcon:{}} />
             <View style={styles.textContainer}>
               <Text style={styles.usernameTitle}>Username</Text>
               <TextInput
@@ -84,7 +86,7 @@ const Login = ({ navigation }) => {
         <View style={styles.Container}>
           <View style={styles.PwdContainer}>
             <View style={styles.PwdView}>
-              <Image source={require("../../../Assets/images/lock.png")} />
+              <Image source={require("../../../Assets/images/lock.png")} style={isTablet?styles.passIcon:{}} />
               <View style={styles.textContainer}>
                 <Text style={styles.usernameTitle}>Password</Text>
                 <TextInput
@@ -98,7 +100,7 @@ const Login = ({ navigation }) => {
               </View>
             </View>
             <Icon name={hidePass ? 'eye-off' : 'eye'}
-              size={scale(18)}
+              size={isTablet?scale(14):scale(18)}
               style={styles.passwordEye}
               color={theme.WHITE}
               onPress={() => setHidePass(!hidePass)} />
@@ -118,16 +120,16 @@ const Login = ({ navigation }) => {
           disabled={false}
           activeText={''}
           inActiveText={''}
-          circleSize={scale(13)}
-          barHeight={scale(20)}
+          circleSize={isTablet?scale(10):scale(13)}
+          barHeight={isTablet?scale(15):scale(20)}
           circleBorderWidth={0}
           backgroundActive={theme.YELLOW}
           backgroundInactive={theme.WHITE}
           circleActiveColor={theme.WHITE}
           circleInActiveColor={theme.YELLOW}
           changeValueImmediately={true}
-          switchLeftPx={scale(1.5)}
-          switchRightPx={scale(1.5)}
+          switchLeftPx={isTablet?scale(0.7):scale(1.5)}
+          switchRightPx={isTablet?scale(0.7):scale(1.5)}
           switchWidthMultiplier={3}
           switchBorderRadius={scale(10)}
         />
