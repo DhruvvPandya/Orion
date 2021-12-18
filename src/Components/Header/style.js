@@ -3,11 +3,11 @@ import { scale, verticalScale } from "react-native-size-matters";
 import theme from "../../Utils/theme";
 import fonts from "../../Utils/fonts";
 import DeviceInfo from 'react-native-device-info';
-
+const isTablet = DeviceInfo.isTablet();
 const hasNotch = DeviceInfo.hasNotch();
 const styles = StyleSheet.create({
   HeaderView: {
-    height: scale(55),
+    height: isTablet?scale(40):scale(55),
     flexDirection: 'row',
     backgroundColor: theme.BACKGROUND,
     alignItems: 'center',
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   ModalText: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
-    fontSize: scale(18),
+    fontSize:isTablet?scale(14):scale(18),
   },
   Line: {
     height: scale(1),
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     borderRadius: scale(8)
   },
   Image:{
-    height: scale(38),
-    width: scale(38),
+    height:isTablet?scale(26):scale(38),
+    width:isTablet?scale(26):scale(38),
     backgroundColor: '#f2f2f2',
     borderRadius: scale(25)
   },

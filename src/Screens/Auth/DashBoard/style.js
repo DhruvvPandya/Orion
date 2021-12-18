@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import theme from "../../../Utils/theme";
 import fonts from "../../../Utils/fonts";
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 
 const styles = StyleSheet.create({
   MainCntainer: {
@@ -11,56 +13,57 @@ const styles = StyleSheet.create({
   Title: {
     fontFamily: fonts.JosefinSans_SemiBold,
     color: theme.BLACK,
-    fontSize: scale(30),
+    fontSize:isTablet?scale(20):scale(30),
   },
   SubTitle: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.BLACK,
-    fontSize: scale(16),
+    fontSize:isTablet?scale(11.5):scale(16),
     opacity: 0.7,
-    paddingRight: scale(50)
+    paddingRight:isTablet?scale(110):scale(50)
   },
   pickerTitle: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.BLACK,
-    fontSize: scale(16),
+    fontSize:isTablet?scale(13):scale(16),
     marginRight: scale(8),
   },
   TopView: {
     backgroundColor: theme.YELLOW,
-    paddingHorizontal: scale(35),
-    paddingVertical: scale(30),
-    borderBottomLeftRadius: scale(16),
-    borderBottomRightRadius: scale(16),
+    paddingHorizontal:isTablet?scale(45):scale(35),
+    paddingVertical:isTablet?scale(16):scale(30),
+    borderBottomLeftRadius:isTablet?scale(12):scale(16),
+    borderBottomRightRadius:isTablet?scale(12):scale(16),
     flexDirection: 'row',
+    alignItems:'center'
   },
   iconView: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: scale(85),
-    width: scale(85),
+    height:isTablet?scale(55):scale(85),
+    width:isTablet?scale(55):scale(85),
     backgroundColor: theme.BACKGROUND,
     borderRadius: scale(55)
   },
   TopDeatils: {
-    marginLeft: scale(20),
+    marginLeft:isTablet?scale(14):scale(20),
     alignSelf: 'center'
   },
   ListView: {
-    flex: 1
+    flex: 1,
   },
   DetailsCard: {
     flex: 1,
     backgroundColor: theme.DARK_BLUE,
-    margin: scale(8),
-    height: scale(200),
-    borderRadius: scale(16),
-    paddingTop: scale(18),
-    paddingHorizontal: scale(16)
+    margin:isTablet?scale(7.5):scale(8),
+    height:isTablet?scale(170):scale(200),
+    borderRadius:isTablet?scale(12):scale(16),
+    paddingTop:isTablet?scale(15):scale(18),
+    paddingHorizontal:isTablet?scale(14):scale(16)
   },
   starView:{
-   height: scale(47),
-   width: scale(47),
+   height:isTablet?scale(38):scale(47),
+   width:isTablet?scale(38):scale(47),
    alignItems: 'center',
    justifyContent: 'center',
    alignSelf: 'flex-end',
@@ -70,25 +73,26 @@ const styles = StyleSheet.create({
   NumText:{
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
-    fontSize: scale(30),
-    marginTop: scale(15)
+    fontSize:isTablet?scale(23):scale(30),
+    marginTop:isTablet?scale(13):scale(15)
   },
   DataText:{
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
-    fontSize: scale(14),
+    fontSize: isTablet?scale(12.2):scale(14),
   },
   DataTextView:{
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
-    fontSize: scale(14),
-    marginTop: scale(16),
+    fontSize:isTablet?scale(12.2):scale(14),
+    marginTop:scale(16),
     marginBottom: scale(2)
   },
   HorizontalView: {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+
   FooterView: {
     backgroundColor: theme.WHITE,
     margin: scale(16),

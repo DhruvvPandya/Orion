@@ -8,8 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 import theme from "../../Utils/theme";
 import * as Api from "src/Utils/Api";
 import ApiConstants from "src/Utils/apiConstants";
-  import { clearSession, getSessionData } from "src/Utils/asyncStorage";
-
+import { clearSession, getSessionData } from "src/Utils/asyncStorage";
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 const Header = ({ Title, ProfileImage }) => {
   const navigation = useNavigation();
   const [isModalVisible, setisModalVisible] = useState(false);
@@ -43,15 +44,15 @@ const Header = ({ Title, ProfileImage }) => {
   useEffect(() => {
     onUserInfo();
   }, [userInfo?.profile_photo_url]);
-  
+
   useEffect(() => {
     async function fetchData() {
-    let getuserPermission =  await getSessionData('UserPermission');
-    setPermission(JSON.parse(getuserPermission))
+      let getuserPermission = await getSessionData("UserPermission");
+      setPermission(JSON.parse(getuserPermission));
     }
     fetchData();
   }, []);
-  console.log(' permission',  permission)
+  console.log(" permission", permission);
   return (
     <View style={styles.HeaderView}>
       <View style={styles.TitleView}>
@@ -73,29 +74,30 @@ const Header = ({ Title, ProfileImage }) => {
             setisModalVisible(true);
           }}
         >
-          <Feather name={"menu"} size={scale(27)} color={theme.YELLOW} />
+          <Feather name={"menu"} size={isTablet?scale(21):scale(27)} color={theme.YELLOW} />
         </Pressable>
+        
         <Modal animationType="slide" transparent visible={isModalVisible}>
           <Pressable
             style={styles.drawerContainer}
             onPress={() => {
-                setisModalVisible(!isModalVisible);
+              setisModalVisible(!isModalVisible);
             }}
           >
             <View style={styles.Modalstyle}>
-            { permission?.change_profile_from_app === '1' &&  
-            <>
-            <Pressable
-                onPress={() => {
-                  navigation.navigate("MyProfile"),
-                    setisModalVisible(!isModalVisible);
-                }}
-              >
-                <Text style={styles.ModalText}>My Profile</Text>
-              </Pressable>
-              <View style={styles.Line} />
-              </>
-              }
+              {permission?.change_profile_from_app === "1" && (
+                <>
+                  <Pressable
+                    onPress={() => {
+                      navigation.navigate("MyProfile"),
+                        setisModalVisible(!isModalVisible);
+                    }}
+                  >
+                    <Text style={styles.ModalText}>My Profile</Text>
+                  </Pressable>
+                  <View style={styles.Line} />
+                </>
+              )}
               <Pressable
                 onPress={() => {
                   navigation.navigate("MyOrders"),
@@ -106,19 +108,19 @@ const Header = ({ Title, ProfileImage }) => {
               </Pressable>
               <View style={styles.Line} />
 
-          {  permission?.change_password_from_app === '1' && 
-          <>
-          <Pressable
-                onPress={() => {
-                  navigation.navigate("Settings"),
-                    setisModalVisible(!isModalVisible);
-                }}
-              >
-                <Text style={styles.ModalText}>Settings</Text>
-              </Pressable>
-              <View style={styles.Line} />
-              </>
-              }
+              {permission?.change_password_from_app === "1" && (
+                <>
+                  <Pressable
+                    onPress={() => {
+                      navigation.navigate("Settings"),
+                        setisModalVisible(!isModalVisible);
+                    }}
+                  >
+                    <Text style={styles.ModalText}>Settings</Text>
+                  </Pressable>
+                  <View style={styles.Line} />
+                </>
+              )}
               <Pressable
                 onPress={() => {
                   setisModalVisible(!isModalVisible),
@@ -131,6 +133,7 @@ const Header = ({ Title, ProfileImage }) => {
             </View>
           </Pressable>
         </Modal>
+        
         <Modal animationType="slide" transparent visible={LogOutModal}>
           <View style={styles.modalContainer}>
             <View style={styles.LogoutModalStyle}>
