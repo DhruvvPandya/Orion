@@ -30,14 +30,12 @@ const Navigation = () => {
 
   const Tab = createBottomTabNavigator();
   const [permission, setPermission] = useState("");
-  useEffect(() => {
-    async function fetchData() {
+  useEffect(async () => {
     let getuserPermission =  await getSessionData('UserPermission');
     setPermission(JSON.parse(getuserPermission))
-    }
-    fetchData();
   }, []);
 
+  console.log(' permission===tab',  permission)
   function DashBoardNavigator(){
     return(
       <DashBoardStack.Navigator
@@ -143,7 +141,7 @@ const Navigation = () => {
               )
             }
           }} />
- { permission?.create_order_from_app === '1' &&   
+ {    permission?.create_order_from_app === '1' &&   
     <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
           options={{
             tabBarLabel: 'Order Request',

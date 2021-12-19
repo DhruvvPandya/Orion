@@ -12,7 +12,9 @@ import Loader from "src/Components/Loader";
 import Header from '../../../Components/Header';
 import theme from '../../../Utils/theme';
 import { scale } from 'react-native-size-matters';
-
+import { ScrollView } from 'react-native-gesture-handler';
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 const actionSheetRef = createRef();
 
 const MyProfile = () => {
@@ -109,15 +111,15 @@ const MyProfile = () => {
             <Ionicons
               name={'location-sharp'}
               color={theme.BACKGROUND}
-              size={scale(22)} />
+              size={isTablet?scale(16):scale(22)} />
             <Text style={[styles.Designation, { alignSelf: 'center'}]}>Store Code - {userInfo?.store?.store_code}</Text>
           </View>
         </View>
         <View style={styles.ImageData}>
-          <Feather
+        <Feather
             name={'edit'}
             color={theme.BACKGROUND}
-            size={scale(25)}
+            size={isTablet?scale(18):scale(25)}
             style={styles.EditIcon}
             onPress={() => actionSheetRef.current?.setModalVisible()} />
           <Image style={styles.Image} source={{ uri: profile_photo }} />
@@ -143,7 +145,7 @@ const MyProfile = () => {
           </Text>
         </View>
       </ActionSheet>
-      <View style={styles.DetailsView}>
+      <ScrollView style={styles.DetailsView}>
         <Text style={styles.TitleText}>First Name</Text>
         <Text style={styles.DetailsText}>{userInfo?.first_name}</Text>
         <View style={styles.Line} />
@@ -159,7 +161,7 @@ const MyProfile = () => {
         <Text style={styles.TitleText}>Store Code</Text>
         <Text style={styles.DetailsText}>{userInfo?.store?.store_code}</Text>
         <View style={styles.Line} />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

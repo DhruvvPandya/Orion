@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import theme from "../../../Utils/theme";
 import fonts from "../../../Utils/fonts";
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 
 const styles = StyleSheet.create({
   MainCntainer: {
@@ -17,15 +19,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1000,
     top: 0,
-    right: scale(20)
+    right:isTablet?scale(27):scale(20),
+    resizeMode : 'contain',
   },
   NameView: {
     flex: 0.2,
     backgroundColor: theme.YELLOW,
-    paddingHorizontal: scale(20),
-    paddingVertical: scale(30),
-    borderBottomLeftRadius: scale(16),
-    borderBottomRightRadius: scale(16),
+    paddingHorizontal:scale(20),
+    paddingVertical:isTablet?scale(22):scale(30),
+    borderBottomLeftRadius:isTablet?scale(13):scale(16),
+    borderBottomRightRadius:isTablet?scale(13):scale(16),
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -46,28 +49,29 @@ const styles = StyleSheet.create({
   },
   NameData: {
     flex: 0.6,
+    // backgroundColor:'red',
     paddingTop: scale(10),
   },
   ImageData: {
     flex: 0.4,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   Image: {
-    height: scale(85),
-    width: scale(85),
+    height:isTablet?scale(60):scale(85),
+    width:isTablet?scale(60):scale(85),
     backgroundColor: '#f2f2f2',
     borderRadius: scale(55)
   },
   name: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.BACKGROUND,
-    fontSize: scale(16),
+    fontSize:isTablet?scale(12):scale(16),
   },
   Designation: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.BLACK,
-    fontSize: scale(14),
+    fontSize: isTablet?scale(11):scale(14),
   },
   AddressView: {
     flexDirection: 'row',
