@@ -2,18 +2,20 @@ import { StyleSheet } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import theme from '../../../Utils/theme';
 import fonts from '../../../Utils/fonts';
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 
 const styles = StyleSheet.create({
   MainCntainer: {
     flex: 1,
     backgroundColor: theme.BACKGROUND,
     alignItems: 'center',
-    paddingTop: scale(70),
+    paddingVertical:isTablet?scale(45):scale(70),
     paddingBottom: scale(45),
   },
   Logo: {
-    height: scale(38),
-    width: scale(98),
+    height:isTablet?scale(30):scale(38),
+    width:isTablet?scale(80):scale(98),
   },
   Textcolor: {color:theme.YELLOW},
   textContainer: {
@@ -22,24 +24,29 @@ const styles = StyleSheet.create({
   Title: {
     fontFamily: fonts.JosefinSans_Regular,
     color: theme.WHITE,
-    fontSize: scale(20),
-    marginTop: verticalScale(45),
+    fontSize:isTablet?scale(16):scale(20),
+    marginTop:isTablet?verticalScale(35):verticalScale(45),
   },
   SubTitle: {
     fontFamily: fonts.JosefinSans_SemiBold,
     color: theme.WHITE,
-    fontSize: scale(16),
-    marginTop: verticalScale(15),
-    marginHorizontal: scale(60),
+    fontSize:isTablet?scale(12):scale(16),
+    marginTop:verticalScale(15),
+    marginHorizontal:scale(60),
     textAlign: "center",
   },
+  msgIcon:{ height:38
+    ,width:45},
+    passIcon:{ height:45
+      ,width:40},
+
   DetailsContainer: {
     backgroundColor: 'rgba(0,0,0,0.3)',
     marginHorizontal: scale(16),
     width: '93%',
-    borderRadius: scale(15),
-    marginTop: scale(20),
-    paddingVertical: scale(33),
+    borderRadius:isTablet?scale(11):scale(15),
+    marginTop:isTablet?scale(17):scale(20),
+    paddingVertical:isTablet?scale(23):scale(33),
     paddingHorizontal: scale(20)
   },
   InputContainer: {
@@ -48,13 +55,13 @@ const styles = StyleSheet.create({
   },
   usernameTitle: {
     fontFamily: fonts.JosefinSans_Regular,
-    fontSize: scale(13),
+    fontSize:isTablet?scale(11):scale(13),
     color: theme.WHITE,
     lineHeight: scale(13),
   },
   usernameDetails: {
     fontFamily: fonts.JosefinSans_Regular,
-    fontSize: scale(16),
+    fontSize:isTablet?scale(13):scale(16),
     color: theme.WHITE,
     lineHeight: scale(16),
     padding: 0,
@@ -86,7 +93,7 @@ const styles = StyleSheet.create({
   },
   BottomText: {
     justifyContent: "flex-end",
-    flex: 1,
+    ...(isTablet?{height:scale(120)}:{flex: 1}),
   },
 });
 export default styles;

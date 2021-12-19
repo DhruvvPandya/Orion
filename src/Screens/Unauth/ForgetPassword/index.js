@@ -7,6 +7,8 @@ import Button from "../../../Components/Button";
 import Loader from "src/Components/Loader";
 import * as Api from "src/Utils/Api";
 import ApiConstants from "src/Utils/apiConstants";
+import DeviceInfo from 'react-native-device-info';
+const isTablet = DeviceInfo.isTablet();
 
 const ForgetPassword = ({navigation}) => {
 
@@ -50,7 +52,7 @@ const ForgetPassword = ({navigation}) => {
       <View style={styles.DetailsContainer}>
         <View style={styles.Container}>
           <View style={styles.InputContainer}>
-            <Image source={require('../../../Assets/images/msg.png')} />
+            <Image source={require('../../../Assets/images/msg.png')} style={isTablet?styles.msgIcon:{}} />
             <View style={styles.textContainer}>
               <Text style={styles.usernameTitle}>Email</Text>
               <TextInput
