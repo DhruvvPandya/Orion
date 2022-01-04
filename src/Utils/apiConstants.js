@@ -1,7 +1,7 @@
 /* App config for apis
  */
 const ApiConstants = {
-  BASE_URL: "https://acbash.com/orioncepheid/api/",
+  BASE_URL: "https://nidhii.co.in/orioncepheid/api/",
 
   LOGIN: "auth/login",
   FORGOT_PASSWORD: "auth/forgot_password",

@@ -19,7 +19,7 @@ import DeviceInfo from 'react-native-device-info';
 import OrderDetails from "../Screens/Auth/OrderDetails";
 import PreviewOrder from "../Screens/Auth/PreviewOrder";
 import { getSessionData } from "src/Utils/asyncStorage";
-
+const isTablet = DeviceInfo.isTablet();
 const hasNotch = DeviceInfo.hasNotch();
 
 const Navigation = () => {
@@ -30,11 +30,13 @@ const Navigation = () => {
 
   const Tab = createBottomTabNavigator();
   const [permission, setPermission] = useState("");
-  useEffect(async () => {
+  useEffect(() => {
+    async function fetchData() {
     let getuserPermission =  await getSessionData('UserPermission');
     setPermission(JSON.parse(getuserPermission))
+    }
+    fetchData();
   }, []);
-
   console.log(' permission===tab',  permission)
   function DashBoardNavigator(){
     return(
@@ -105,14 +107,14 @@ const Navigation = () => {
           headerShown: false,
           tabBarLabelStyle: {
             fontFamily: fonts.JosefinSans_Regular,
-            fontSize: scale(12),
-            margin: 0
-          },
+            fontSize: isTablet?scale(10):scale(12),
+            margin: 0,
+             },
           tabBarActiveTintColor: theme.YELLOW,
           tabBarInactiveTintColor: theme.WHITE,
           tabBarStyle: {
             backgroundColor: theme.BACKGROUND,
-            height: Platform.OS === 'ios' && hasNotch ? scale(70) : scale(55),
+            height:isTablet?scale(40):Platform.OS === 'ios' && hasNotch ? scale(70) : scale(55),
             padding: 0
           },
           tabStyle: {
@@ -133,15 +135,16 @@ const Navigation = () => {
                   source={require('src/Assets/images/dashboard.png')}
                   style={{
                     tintColor: focused ? theme.YELLOW : theme.WHITE,
-                    height: scale(18),
-                    width: scale(18),
-                    padding: 0
+                    height:isTablet?scale(14):scale(18),
+                    width:isTablet?scale(14):scale(18),
+                    padding: 0,
+                    ...(isTablet?{marginRight:scale(13)}:{})
                   }} />
                 // </View>
               )
             }
           }} />
- {    permission?.create_order_from_app === '1' &&   
+{ permission?.create_order_from_app === '1' &&
     <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
           options={{
             tabBarLabel: 'Order Request',
@@ -151,13 +154,14 @@ const Navigation = () => {
                   source={require('src/Assets/images/order.png')}
                   style={{
                     tintColor: focused ? theme.YELLOW : theme.WHITE,
-                    height: scale(18),
-                    width: scale(18)
+                    height:isTablet?scale(14):scale(18),
+                    width:isTablet?scale(14):scale(18),
+                    ...(isTablet?{marginRight:scale(13)}:{})
                   }} />
               )
             }
           }} />
-   } 
+   }
         <Tab.Screen name={'ActiveOrderNavigator'} component={ActiveOrderNavigator}
           options={{
             tabBarLabel: 'Request Response',
@@ -167,8 +171,9 @@ const Navigation = () => {
                   source={require('src/Assets/images/request.png')}
                   style={{
                     tintColor: focused ? theme.YELLOW : theme.WHITE,
-                    height: scale(20),
-                    width: scale(20)
+                    height:isTablet?scale(14):scale(18),
+                    width:isTablet?scale(14):scale(18),
+                    ...(isTablet?{marginRight:scale(13)}:{})
                   }} />
               )
             }
