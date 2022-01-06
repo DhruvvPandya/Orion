@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -19,6 +19,9 @@ import DeviceInfo from 'react-native-device-info';
 import OrderDetails from "../Screens/Auth/OrderDetails";
 import PreviewOrder from "../Screens/Auth/PreviewOrder";
 import { getSessionData } from "src/Utils/asyncStorage";
+import * as Api from "src/Utils/Api";
+import ApiConstants from "src/Utils/apiConstants";
+import Snackbar from 'react-native-snackbar';
 
 const hasNotch = DeviceInfo.hasNotch();
 
@@ -30,22 +33,34 @@ const Navigation = () => {
 
   const Tab = createBottomTabNavigator();
   const [permission, setPermission] = useState("");
-  useEffect(async () => {
-    let getuserPermission =  await getSessionData('UserPermission');
-    setPermission(JSON.parse(getuserPermission))
+
+  const onDashBoardSuccess = async (data) => {
+    console.log("data", data?.data?.user_permission);
+    setPermission(data?.data?.user_permission)
+  };
+
+  const getPermissionList = () => {
+    Api.getApicall(
+      ApiConstants.BASE_URL + ApiConstants.ALL_SETTINGS,
+      onDashBoardSuccess
+    );
+  };
+
+  useEffect(() => {
+    getPermissionList();
   }, []);
 
-  console.log(' permission===tab',  permission)
-  function DashBoardNavigator(){
-    return(
+  console.log(' permission===tab', permission)
+  function DashBoardNavigator() {
+    return (
       <DashBoardStack.Navigator
-      initialRouteName={DashBoard}
-      screenOptions={{
-        headerShown: false
-      }}
+        initialRouteName={DashBoard}
+        screenOptions={{
+          headerShown: false
+        }}
       >
-        <DashBoardStack.Screen 
-        name={'DashBoard'} component={DashBoard}
+        <DashBoardStack.Screen
+          name={'DashBoard'} component={DashBoard}
         />
         <DashBoardStack.Screen name={"MyProfile"} component={MyProfile} />
         <DashBoardStack.Screen name={"MyOrders"} component={MyOrders} />
@@ -56,47 +71,44 @@ const Navigation = () => {
     )
   }
 
-  function OrderRequestNavigator(){
-    return(
+  function OrderRequestNavigator() {
+    return (
       <OrderRequestStack.Navigator
-      initialRouteName={OrderRequest}
-      screenOptions={{
-        headerShown: false
-      }}
+        initialRouteName={OrderRequest}
+        screenOptions={{
+          headerShown: false
+        }}
       >
-        <OrderRequestStack.Screen 
-        name={'OrderRequest'} component={OrderRequest}
+        <OrderRequestStack.Screen
+          name={'OrderRequest'} component={OrderRequest}
         />
         <OrderRequestStack.Screen name={"MyProfile"} component={MyProfile} />
         <OrderRequestStack.Screen name={"MyOrders"} component={MyOrders} />
         <OrderRequestStack.Screen name={"Settings"} component={Settings} />
         <OrderRequestStack.Screen name={'PreviewOrder'} component={PreviewOrder} />
-
       </OrderRequestStack.Navigator>
 
     )
   }
 
-  function ActiveOrderNavigator(){
-    return(
+  function ActiveOrderNavigator() {
+    return (
       <ActiveOrderStack.Navigator
-      initialRouteName={OrderRequest}
-      screenOptions={{
-        headerShown: false
-      }}
+        initialRouteName={OrderRequest}
+        screenOptions={{
+          headerShown: false
+        }}
       >
-        <ActiveOrderStack.Screen 
-        name={'ActiveOrder'} component={ActiveOrder}
+        <ActiveOrderStack.Screen
+          name={'ActiveOrder'} component={ActiveOrder}
         />
         <ActiveOrderStack.Screen name={"MyProfile"} component={MyProfile} />
         <ActiveOrderStack.Screen name={"MyOrders"} component={MyOrders} />
         <ActiveOrderStack.Screen name={"Settings"} component={Settings} />
-
       </ActiveOrderStack.Navigator>
 
     )
   }
-
   function TabNavigator() {
     return (
       <Tab.Navigator
@@ -123,12 +135,6 @@ const Navigation = () => {
             tabBarLabel: 'DashBoard',
             tabBarIcon: ({ focused }) => {
               return (
-                // <View style={{
-                //   alignItems: 'center',
-                //   width: '100%',
-                //   borderTopWidth: 3,
-                //   borderColor: theme.YELLOW,
-                // }}>
                 <Image
                   source={require('src/Assets/images/dashboard.png')}
                   style={{
@@ -137,14 +143,22 @@ const Navigation = () => {
                     width: scale(18),
                     padding: 0
                   }} />
-                // </View>
               )
             }
           }} />
- {    permission?.create_order_from_app === '1' &&   
-    <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
+        <Tab.Screen name={'OrderRequestNavigator'} component={OrderRequestNavigator}
+          listeners={{
+            tabPress: (e) => {
+              !permission?.create_order_from_app && e.preventDefault('DashBoardNavigator'); // Use this to navigate somewhere else
+              !permission?.create_order_from_app && Snackbar.show({
+                text: 'Do not have permisson to Create Order',
+                duration: Snackbar.LENGTH_SHORT,
+              })
+            },
+          }}
           options={{
             tabBarLabel: 'Order Request',
+
             tabBarIcon: ({ focused }) => {
               return (
                 <Image
@@ -155,9 +169,8 @@ const Navigation = () => {
                     width: scale(18)
                   }} />
               )
-            }
+            },
           }} />
-   } 
         <Tab.Screen name={'ActiveOrderNavigator'} component={ActiveOrderNavigator}
           options={{
             tabBarLabel: 'Request Response',
@@ -177,7 +190,7 @@ const Navigation = () => {
     )
   }
 
- 
+
   function StackNavigator() {
     return (
       <Stack.Navigator

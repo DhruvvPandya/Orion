@@ -81,11 +81,14 @@ const OrderRequest = ({ navigation }) => {
     );
   };
 
-  useEffect(async () => {
-    const UserInfo = await getSessionData("UserInfo");
-    setStoreCode(UserInfo);
+  useEffect(() => {
+    async function fetchData() {
+      // You can await here
+      const UserInfo = await getSessionData("UserInfo");
+      setStoreCode(UserInfo);
+    }
     getCategoriesList();
-  }, []);
+  }, []); // Or [] if effect doesn't need props or state
 
   console.log("categories", categories);
   let categoryData = categories?.map((value) => value.name);

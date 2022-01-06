@@ -1,7 +1,7 @@
 /* App config for apis
  */
 const ApiConstants = {
-  BASE_URL: "https://acbash.com/orioncepheid/api/",
+  BASE_URL: "https://nidhii.co.in/orioncepheid/api/",
 
   LOGIN: "auth/login",
   FORGOT_PASSWORD: "auth/forgot_password",
@@ -14,7 +14,8 @@ const ApiConstants = {
   CREATE_ORDER: 'createorder',
   ALL_CATEGORIES: 'allcategories',
   FULLFILLED_ORDER: 'fullfilled_order',
-  REAUTHORIZE_ORDER: 'reauthorize_order'
+  REAUTHORIZE_ORDER: 'reauthorize_order',
+  ALL_SETTINGS: 'allsettings'
 };
 
 export default ApiConstants;
