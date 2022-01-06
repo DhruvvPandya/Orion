@@ -13,8 +13,8 @@ import theme from "../../../Utils/theme";
 import fonts from "../../../Utils/fonts";
 import ModalDropdown from "react-native-modal-dropdown";
 import DeviceInfo from 'react-native-device-info';
-const isTablet = DeviceInfo.isTablet();
 
+const isTablet = DeviceInfo.isTablet();
 const DATA = ["Select", "date", "week", "month", "year"];
 
 const DashBoard = ({ navigation }) => {

@@ -4,6 +4,7 @@ import { getSessionData } from "src/Utils/asyncStorage";
 export const LOGIN_KEY = "LoginToken";
 
 export const postApicall = (url, payload, success) => {
+  console.log('signin err',payload,url);
   axios
     .post(url, payload, {
       headers: {
@@ -17,7 +18,7 @@ export const postApicall = (url, payload, success) => {
       }
     })
     .catch((err) => {
-      console.log('err',err);
+      console.log('signin err',err);
     });
 };
 

@@ -44,9 +44,11 @@ const ActiveOrder = ({navigation}) => {
         <View style={styles.Horizontal}>
           <Text style={styles.Title}>Active Orders</Text>
           <View style={styles.PickerView}>
+
             <Text style={[styles.SubTitle, { paddingRight: 10 }]}>
               Filter By:
             </Text>
+            
             <ModalDropdown
               defaultValue={"Select"}
               textStyle={styles.pickerTitle}
